@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TheGame", "TheGame\TheGame.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGame_Mob", "TheGame_Mob\TheGame_Mob.csproj", "{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheGame_Desktop", "TheGame_Desktop\TheGame_Desktop.csproj", "{3B367276-2859-4A3E-8424-A21E15519928}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B88A3D22-39D5-4AA3-B9E9-1D6588E1E397}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3B367276-2859-4A3E-8424-A21E15519928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B367276-2859-4A3E-8424-A21E15519928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B367276-2859-4A3E-8424-A21E15519928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B367276-2859-4A3E-8424-A21E15519928}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44660AF6-8792-4516-B086-5F11101FDEBD}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TheGame\TheGame.projitems*{3b367276-2859-4a3e-8424-a21e15519928}*SharedItemsImports = 5
+		TheGame\TheGame.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
+		TheGame\TheGame.projitems*{b88a3d22-39d5-4aa3-b9e9-1d6588e1e397}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal
