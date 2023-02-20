@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Android.OS;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -6,6 +7,10 @@ using System.Threading;
 using TheGame.Mics;
 using TheGame.States;
 using TheGame.States.Menu;
+using System.Diagnostics;
+using Microsoft.Xna.Framework.Input.Touch;
+using Android.Service.Voice;
+
 namespace TheGame
 {
     public class Game1 : Game
@@ -66,7 +71,12 @@ namespace TheGame
 
         protected override void Update(GameTime gameTime)
         {
-            
+#if ANDROID
+            TouchCollection touch = TouchPanel.GetState();
+            if(touch.Count> 0)
+                System.Diagnostics.Debug.WriteLine(touch[0].Position.X+", "+ touch[0].Position.Y);
+#endif
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
