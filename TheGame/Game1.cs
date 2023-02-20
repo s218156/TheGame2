@@ -1,4 +1,4 @@
-﻿using Android.OS;
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -9,7 +9,11 @@ using TheGame.States;
 using TheGame.States.Menu;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input.Touch;
+
+#if ANDROID
 using Android.Service.Voice;
+using Android.OS;
+#endif
 
 namespace TheGame
 {

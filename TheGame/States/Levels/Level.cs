@@ -129,7 +129,7 @@ namespace TheGame.States
 
             foreach (var tmp in map.checkPoints)
             {
-                var newItem = new CheckPoint(tmp, content.Load<Texture2D>("Items/checkpoint"), content.Load<Texture2D>("Items/checkpointanim"));
+                var newItem = new CheckPoint(tmp, content.Load<Texture2D>("Items/checkpoint"), content.Load<Texture2D>("Items/CheckPointAnim"));
                 _checkpoints.Add(newItem);
                 items.Add(newItem);
             }
@@ -141,11 +141,11 @@ namespace TheGame.States
                 {
                     if (platform.leverNumber == tmp.leverNumber)
                     {
-                        platforms.Add(new Platform(content.Load<Texture2D>("items/platform"),platform.rectangle));
+                        platforms.Add(new Platform(content.Load<Texture2D>("Items/platform"),platform.rectangle));
                     }
                 }
 
-                items.Add(new Lever(content.Load<Texture2D>("items/lever"), tmp.rectangle, map,platforms));
+                items.Add(new Lever(content.Load<Texture2D>("Items/Lever"), tmp.rectangle, map,platforms));
             }
             foreach (var tmp in map.sublevels)
                 sublevelTriggers.Add(new SubLevelTrigger(tmp.sublevelId, tmp.rectangle));

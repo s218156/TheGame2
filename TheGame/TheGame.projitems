@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\GameUI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Selection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\PhysicalObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\ScreenSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\ScrollingBackground\Background.cs" />
@@ -440,7 +441,9 @@
     <None Include="$(MSBuildThisFileDirectory)Content\Shaders\lightEffect.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Sprites\flyAnimation.atlas" />
     <None Include="$(MSBuildThisFileDirectory)Content\textureEffects\whiteFogAnimation.atlas" />
-    <None Include="$(MSBuildThisFileDirectory)Content\TileMaps\Level0\level0-map.tmx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\TileMaps\Level0\level0-map.tmx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Include="$(MSBuildThisFileDirectory)Content\TileMaps\Level1\level1-map.tmx" />
     <None Include="$(MSBuildThisFileDirectory)Content\TileMaps\Level2\level2-map.tmx" />
     <None Include="$(MSBuildThisFileDirectory)Content\TileMaps\Level3\level3-map.tmx" />
