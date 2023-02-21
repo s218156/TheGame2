@@ -28,7 +28,7 @@ namespace TheGame.States.Menu
         
         public override void Initialize()
         {
-#if NETCOREAPP3_1_OR_GREATER
+#if DESKTOP
             selection = new Selection(content);
             selection.SetSelectionPosition(_buttons);
 #endif
@@ -50,7 +50,7 @@ namespace TheGame.States.Menu
             }
             foreach (var item in _components)
                 item.Draw(gameTime, spriteBatch);
-#if NETCOREAPP3_1_OR_GREATER
+#if DESKTOP
             selection.Draw(gameTime, spriteBatch);
 #endif
             spriteBatch.End();
@@ -61,7 +61,7 @@ namespace TheGame.States.Menu
             foreach (Button item in _components)
             {
                 item.Update(gameTime);
-#if NETCOREAPP3_1_OR_GREATER
+#if DESKTOP
                 selection.Update(_buttons);
 #endif
             }

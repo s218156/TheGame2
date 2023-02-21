@@ -52,7 +52,7 @@ namespace TheGame
 
         protected override void LoadContent()
         {
-#if NETCOREAPP3_1
+#if DESKTOP
             if (screen.ConfigFileExist())
                 screen=screen.Load();
             else

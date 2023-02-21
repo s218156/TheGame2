@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if ANDROID
+using Android.Hardware.Camera2;
+#endif
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -93,7 +96,13 @@ namespace TheGame.States
             items = new List<Item>();
             _checkpoints = new List<CheckPoint>();
             movableItems = new List<MovableItem>();
-            gameUI = new GameUI(content);
+#if DESKTOP
+            gameUI = new GameUI(content,Game1.screenHeight,Game1.screenWidth);
+#endif
+#if ANDROID
+            gameUI = new GameUI(content, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width);
+#endif
+
             fallableObjects = new List<FallableObject>();
             springs = new List<Spring>();
             waterAreas = new List<WaterArea>();
@@ -106,6 +115,8 @@ namespace TheGame.States
 
         private void GenerateObjects()
         {
+
+
             CoinSoundController coinSound = new CoinSoundController(content.Load<Song>("Audio/handleCoins"));
             spawnPoint = map.spawnPosition;
 
@@ -215,6 +226,8 @@ namespace TheGame.States
 
             foreach (WaterArea item in waterAreas)
                 item.Draw(gameTime, spriteBatch);
+
+
             spriteBatch.End();
             map.DrawFront(_camera.Transform);
 
