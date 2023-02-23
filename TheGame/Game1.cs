@@ -83,14 +83,18 @@ namespace TheGame
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
-            if ((Keyboard.GetState().IsKeyDown(Keys.Escape))&(!(_currentState is MenuState)))
+            if(!(_currentState is MenuState))
             {
-                Thread.Sleep(200);
-                _currentState.SaveDataToSession();
-                _gameState = _currentState;
-                _currentState = new PauseMenuState(this,GraphicsDevice,Content,_gameState,null);
+                if ((_currentState.controller.isPause))
+                {
+                    _currentState.controller.isPause = false;
+                    Thread.Sleep(200);
+                    _currentState.SaveDataToSession();
+                    _gameState = _currentState;
+                    _currentState = new PauseMenuState(this, GraphicsDevice, Content, _gameState, null);
+                }
             }
+            
 
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;

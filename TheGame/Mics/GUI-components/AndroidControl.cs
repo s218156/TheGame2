@@ -10,11 +10,13 @@ namespace TheGame.Mics.GUI_components
     {
         private Texture2D texture;
         private Rectangle rectangle;
+        public string name;
 
-        public AndroidControl(Texture2D texture, Rectangle rectangle)
+        public AndroidControl(Texture2D texture, Rectangle rectangle, string name)
         {
             this.texture = texture;
             this.rectangle = rectangle;
+            this.name = name;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -26,6 +28,10 @@ namespace TheGame.Mics.GUI_components
         {
 
 
+        }
+        public bool IsContainedByButton(Rectangle touchRectangle)
+        {
+            return rectangle.Contains(touchRectangle);
         }
     }
 }

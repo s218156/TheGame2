@@ -18,9 +18,11 @@ namespace TheGame.Sprites
         public int lifes;
         public int jumpHeight;
         private List<InventoryItem> inventory;
+        public bool doingAction;
         
         public Player(Texture2D texture, Vector2 position,Texture2D deathTexture, int lifes) : base(position, deathTexture)
         {
+            this.doingAction= false;
             inventory = new List<InventoryItem>();
             this.animatedTexture = new CharacterAnimation(texture, rectangle);
             crouch = false;
@@ -35,7 +37,7 @@ namespace TheGame.Sprites
             if (isAlive)
             {
                 IsOnLadder(map);
-                GetMovementFormKeyboard(map);
+                //GetMovementFormKeyboard(map);
                 CrouchingInfluence();
             }
             else
@@ -122,14 +124,13 @@ namespace TheGame.Sprites
         }
 
 
-        private void GetMovementFormKeyboard(TileMap map)
+        public void GetMovementFormKeyboard(TileMap map,GameInputController controller)
         {
-            var keyState = Keyboard.GetState();
             
-            if (keyState.IsKeyDown(Keys.LeftControl))
-                attacking = 10;
+            //if (keyState.IsKeyDown(Keys.LeftControl))
+            //    attacking = 10;
 
-            if ((keyState.IsKeyDown(Keys.W)))
+            if (controller.isUp)
             {
                 if(isOnLadder)
                     velocity.Y--;
@@ -138,18 +139,18 @@ namespace TheGame.Sprites
             }
                 
 
-            if (keyState.IsKeyDown(Keys.D))
+            if (controller.isRight)
                 velocity.X++;
             
-            if (keyState.IsKeyDown(Keys.A))
+            if (controller.isLeft)
                 velocity.X--;
             
-            if ((keyState.IsKeyDown(Keys.Space)) & (floorColision))
+            if (controller.isJump & floorColision)
             {
                 velocity.Y = -1*jumpHeight;
                 jump = true;
             }
-            if (keyState.IsKeyDown(Keys.S))
+            if (controller.isDown)
             {
                 if (floorColision&!crouch)
                 {
@@ -161,7 +162,7 @@ namespace TheGame.Sprites
                     velocity.Y++;
                 
             }
-            if (keyState.IsKeyUp(Keys.S)&crouch)
+            if (crouch&!controller.isDown)
             {
                 Rectangle newRectangle = rectangle;
                 newRectangle.Height = rectangle.Height + 35;
@@ -180,6 +181,7 @@ namespace TheGame.Sprites
                     rectangle.Height = rectangle.Height + 35;
                 } 
             }
+            doingAction = controller.isAction;
         }
 
     }

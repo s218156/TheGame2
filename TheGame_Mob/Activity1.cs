@@ -1,3 +1,4 @@
+using Android;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -24,6 +25,7 @@ namespace TheGame_Mob
 
         protected override void OnCreate(Bundle bundle)
         {
+
             base.OnCreate(bundle);
 
             _game = new Game1();

@@ -39,7 +39,7 @@ namespace TheGame.States
 
         protected override void LoadMap()
         {
-            map = new TileMap(content.Load<TiledMap>("TileMaps//level2/Level2-map"), graphics);
+            map = new TileMap(content.Load<TiledMap>("TileMaps/Level2/level2-map"), graphics);
 
 
             Paralax p1 = new Paralax(content.Load<Texture2D>("Backgrounds/Level2/l2p1"), graphics, Vector2.Zero, new Vector2((float)0.2, 0));

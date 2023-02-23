@@ -58,6 +58,7 @@ namespace TheGame.States
         protected bool isLightShader;
         public Level(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session,int levelId, int nextLevelId):base(game,graphics,content, session)
         {
+            this.controller = new GameInputController();
             this.baseLevel = null;
             this.levelId = levelId;
             this.nextLevelId = nextLevelId;
@@ -65,6 +66,7 @@ namespace TheGame.States
             isLightShader = false;
             pointAtTheBegining = session.GetPlayerPoints();
             _paralaxes = new List<Paralax>();
+            
         }
 
         public void GeneratePlayerAndBackground()
@@ -85,7 +87,7 @@ namespace TheGame.States
             if (isLightShader)
             {
                 lightMask = new RenderTarget2D(graphics, graphics.Viewport.Width, graphics.Viewport.Height);
-                mask = content.Load<Texture2D>("shaders/lightmask");
+                mask = content.Load<Texture2D>("Shaders/lightmask");
             }
                 
 
@@ -168,7 +170,7 @@ namespace TheGame.States
                 items.Add(new Ladder(tmp));
 
             foreach (var tmp in map.tourches)
-                items.Add(new Tourch(content.Load<Texture2D>("items/tourch"),tmp));
+                items.Add(new Tourch(content.Load<Texture2D>("Items/tourch"),tmp));
 
             foreach (var tmp in map.snails)
                 sprites.Add(new MovingBug(content.Load<Texture2D>("Sprites/snailAnimation"), tmp, content.Load<Texture2D>("textureEffects/whiteFogAnimation"), 100, 1));
@@ -273,10 +275,17 @@ namespace TheGame.States
 
         public override void Update(GameTime gameTime)
         {
-            gameMaster.Update(gameTime,player, map);
+            controller.Clear();
+            controller =gameUI.ReadInput(controller);
+            
+#if DESKTOP
+gameMaster.Update(gameTime,player, map);
+#endif
             UpdateSessionData();
+            
             if (!gameMaster.isActive)
             {
+                player.GetMovementFormKeyboard(map, controller);
                 foreach (Sprite sprite in sprites)
                     sprite.Update(gameTime, player, map, movableItems,waterAreas);
                 
@@ -314,9 +323,11 @@ namespace TheGame.States
 
 
                 gameUI.Update(gameTime);
+                
                 CheckEndLevel();
                 CheckSubLevel();
             }
+            
         }
 
         private void CheckSubLevel()
@@ -343,7 +354,6 @@ namespace TheGame.States
         {
             if(player.rectangle.Intersects(EndPoint))
             {
-                
                 game.ChangeState(new LoadingScreen(game,graphics,content,session,nextLevelId,false));
             }
                 
