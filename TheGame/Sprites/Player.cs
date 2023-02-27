@@ -126,62 +126,66 @@ namespace TheGame.Sprites
 
         public void GetMovementFormKeyboard(TileMap map,GameInputController controller)
         {
-            
+            if (isAlive)
+            {
+                if (controller.isUp)
+                {
+                    if (isOnLadder)
+                        velocity.Y--;
+                    if (isUnderWater)
+                        velocity.Y -= 2;
+                }
+
+
+                if (controller.isRight)
+                    velocity.X++;
+
+                if (controller.isLeft)
+                    velocity.X--;
+
+                if (controller.isJump & floorColision)
+                {
+                    velocity.Y = -1 * jumpHeight;
+                    jump = true;
+                }
+                if (controller.isDown)
+                {
+                    if (floorColision & !crouch)
+                    {
+                        crouch = true;
+                        rectangle.Y = rectangle.Y + 35;
+                        rectangle.Height = rectangle.Height - 35;
+                    }
+                    else
+                        velocity.Y++;
+
+                }
+                if (crouch & !controller.isDown)
+                {
+                    Rectangle newRectangle = rectangle;
+                    newRectangle.Height = rectangle.Height + 35;
+                    newRectangle.Y -= 35;
+                    bool isColiding = false;
+                    foreach (var obj in map.GetMapObjectList())
+                    {
+                        if (newRectangle.Intersects(obj))
+                        {
+                            isColiding = true;
+                        }
+                    }
+                    if (!isColiding)
+                    {
+                        crouch = false;
+                        rectangle.Y = rectangle.Y - 35;
+                        rectangle.Height = rectangle.Height + 35;
+                    }
+                }
+                doingAction = controller.isAction;
+
+            }
             //if (keyState.IsKeyDown(Keys.LeftControl))
             //    attacking = 10;
 
-            if (controller.isUp)
-            {
-                if(isOnLadder)
-                    velocity.Y--;
-                if (isUnderWater)
-                    velocity.Y -= 2;
-            }
-                
-
-            if (controller.isRight)
-                velocity.X++;
-            
-            if (controller.isLeft)
-                velocity.X--;
-            
-            if (controller.isJump & floorColision)
-            {
-                velocity.Y = -1*jumpHeight;
-                jump = true;
-            }
-            if (controller.isDown)
-            {
-                if (floorColision&!crouch)
-                {
-                    crouch = true;
-                    rectangle.Y = rectangle.Y + 35;
-                    rectangle.Height = rectangle.Height - 35;
-                }
-                else
-                    velocity.Y++;
-                
-            }
-            if (crouch&!controller.isDown)
-            {
-                Rectangle newRectangle = rectangle;
-                newRectangle.Height = rectangle.Height + 35;
-                newRectangle.Y-=35;
-                bool isColiding = false;
-                foreach(var obj in map.GetMapObjectList())
-                {
-                    if (newRectangle.Intersects(obj)){
-                        isColiding = true;
-                    }
-                }
-                if (!isColiding)
-                {
-                    crouch = false;
-                    rectangle.Y = rectangle.Y - 35;
-                    rectangle.Height = rectangle.Height + 35;
-                } 
-            }
-            doingAction = controller.isAction;
         }
 
     }

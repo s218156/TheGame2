@@ -9,7 +9,7 @@ using TheGame;
 namespace TheGame_Mob
 {
     [Activity(
-        Label = "Platformer2D",
+        Label = "TheGame",
         MainLauncher = true,
         Icon = "@drawable/icon",
         Theme = "@style/Theme.Splash",
