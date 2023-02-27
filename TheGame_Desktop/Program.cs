@@ -7,6 +7,7 @@ namespace TheGame
         [STAThread]
         static void Main()
         {
+            //sync test
             using (var game = new Game1())
                 game.Run();
         }

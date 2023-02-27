@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -6,6 +7,14 @@ using System.Threading;
 using TheGame.Mics;
 using TheGame.States;
 using TheGame.States.Menu;
+using System.Diagnostics;
+using Microsoft.Xna.Framework.Input.Touch;
+
+#if ANDROID
+using Android.Service.Voice;
+using Android.OS;
+#endif
+
 namespace TheGame
 {
     public class Game1 : Game
@@ -43,7 +52,7 @@ namespace TheGame
 
         protected override void LoadContent()
         {
-#if NETCOREAPP3_1
+#if DESKTOP
             if (screen.ConfigFileExist())
                 screen=screen.Load();
             else
@@ -66,17 +75,26 @@ namespace TheGame
 
         protected override void Update(GameTime gameTime)
         {
-            
+#if ANDROID
+            TouchCollection touch = TouchPanel.GetState();
+            if(touch.Count> 0)
+                System.Diagnostics.Debug.WriteLine(touch[0].Position.X+", "+ touch[0].Position.Y);
+#endif
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
-            if ((Keyboard.GetState().IsKeyDown(Keys.Escape))&(!(_currentState is MenuState)))
+            if(!(_currentState is MenuState))
             {
-                Thread.Sleep(200);
-                _currentState.SaveDataToSession();
-                _gameState = _currentState;
-                _currentState = new PauseMenuState(this,GraphicsDevice,Content,_gameState,null);
+                if ((_currentState.controller.isPause))
+                {
+                    _currentState.controller.isPause = false;
+                    Thread.Sleep(200);
+                    _currentState.SaveDataToSession();
+                    _gameState = _currentState;
+                    _currentState = new PauseMenuState(this, GraphicsDevice, Content, _gameState, null);
+                }
             }
+            
 
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;

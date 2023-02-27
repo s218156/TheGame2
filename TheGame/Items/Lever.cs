@@ -32,7 +32,7 @@ namespace TheGame.Items
 
         public override void Update(GameTime gameTime, Player player, TileMap map)
         {
-            if ((rectangle.Intersects(player.rectangle))&(Keyboard.GetState().IsKeyDown(Keys.F))){
+            if ((rectangle.Intersects(player.rectangle))&(player.doingAction)){
                 if (player.velocity.X != 0)
                 {
                     if (player.velocity.X > 0)

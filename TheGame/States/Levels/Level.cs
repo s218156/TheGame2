@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if ANDROID
+using Android.Hardware.Camera2;
+#endif
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -55,6 +58,7 @@ namespace TheGame.States
         protected bool isLightShader;
         public Level(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session,int levelId, int nextLevelId):base(game,graphics,content, session)
         {
+            this.controller = new GameInputController();
             this.baseLevel = null;
             this.levelId = levelId;
             this.nextLevelId = nextLevelId;
@@ -62,6 +66,7 @@ namespace TheGame.States
             isLightShader = false;
             pointAtTheBegining = session.GetPlayerPoints();
             _paralaxes = new List<Paralax>();
+            
         }
 
         public void GeneratePlayerAndBackground()
@@ -82,7 +87,7 @@ namespace TheGame.States
             if (isLightShader)
             {
                 lightMask = new RenderTarget2D(graphics, graphics.Viewport.Width, graphics.Viewport.Height);
-                mask = content.Load<Texture2D>("shaders/lightmask");
+                mask = content.Load<Texture2D>("Shaders/lightmask");
             }
                 
 
@@ -93,7 +98,13 @@ namespace TheGame.States
             items = new List<Item>();
             _checkpoints = new List<CheckPoint>();
             movableItems = new List<MovableItem>();
-            gameUI = new GameUI(content);
+#if DESKTOP
+            gameUI = new GameUI(content,Game1.screenHeight,Game1.screenWidth);
+#endif
+#if ANDROID
+            gameUI = new GameUI(content, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width);
+#endif
+
             fallableObjects = new List<FallableObject>();
             springs = new List<Spring>();
             waterAreas = new List<WaterArea>();
@@ -106,6 +117,8 @@ namespace TheGame.States
 
         private void GenerateObjects()
         {
+
+
             CoinSoundController coinSound = new CoinSoundController(content.Load<Song>("Audio/handleCoins"));
             spawnPoint = map.spawnPosition;
 
@@ -129,7 +142,7 @@ namespace TheGame.States
 
             foreach (var tmp in map.checkPoints)
             {
-                var newItem = new CheckPoint(tmp, content.Load<Texture2D>("Items/checkpoint"), content.Load<Texture2D>("Items/checkpointanim"));
+                var newItem = new CheckPoint(tmp, content.Load<Texture2D>("Items/checkpoint"), content.Load<Texture2D>("Items/CheckPointAnim"));
                 _checkpoints.Add(newItem);
                 items.Add(newItem);
             }
@@ -141,11 +154,11 @@ namespace TheGame.States
                 {
                     if (platform.leverNumber == tmp.leverNumber)
                     {
-                        platforms.Add(new Platform(content.Load<Texture2D>("items/platform"),platform.rectangle));
+                        platforms.Add(new Platform(content.Load<Texture2D>("Items/platform"),platform.rectangle));
                     }
                 }
 
-                items.Add(new Lever(content.Load<Texture2D>("items/lever"), tmp.rectangle, map,platforms));
+                items.Add(new Lever(content.Load<Texture2D>("Items/Lever"), tmp.rectangle, map,platforms));
             }
             foreach (var tmp in map.sublevels)
                 sublevelTriggers.Add(new SubLevelTrigger(tmp.sublevelId, tmp.rectangle));
@@ -157,7 +170,7 @@ namespace TheGame.States
                 items.Add(new Ladder(tmp));
 
             foreach (var tmp in map.tourches)
-                items.Add(new Tourch(content.Load<Texture2D>("items/tourch"),tmp));
+                items.Add(new Tourch(content.Load<Texture2D>("Items/tourch"),tmp));
 
             foreach (var tmp in map.snails)
                 sprites.Add(new MovingBug(content.Load<Texture2D>("Sprites/snailAnimation"), tmp, content.Load<Texture2D>("textureEffects/whiteFogAnimation"), 100, 1));
@@ -215,6 +228,8 @@ namespace TheGame.States
 
             foreach (WaterArea item in waterAreas)
                 item.Draw(gameTime, spriteBatch);
+
+
             spriteBatch.End();
             map.DrawFront(_camera.Transform);
 
@@ -260,10 +275,17 @@ namespace TheGame.States
 
         public override void Update(GameTime gameTime)
         {
-            gameMaster.Update(gameTime,player, map);
+            controller.Clear();
+            controller =gameUI.ReadInput(controller);
+            
+#if DESKTOP
+gameMaster.Update(gameTime,player, map);
+#endif
             UpdateSessionData();
+            
             if (!gameMaster.isActive)
             {
+                player.GetMovementFormKeyboard(map, controller);
                 foreach (Sprite sprite in sprites)
                     sprite.Update(gameTime, player, map, movableItems,waterAreas);
                 
@@ -301,9 +323,11 @@ namespace TheGame.States
 
 
                 gameUI.Update(gameTime);
+                
                 CheckEndLevel();
                 CheckSubLevel();
             }
+            
         }
 
         private void CheckSubLevel()
@@ -330,7 +354,6 @@ namespace TheGame.States
         {
             if(player.rectangle.Intersects(EndPoint))
             {
-                
                 game.ChangeState(new LoadingScreen(game,graphics,content,session,nextLevelId,false));
             }
                 

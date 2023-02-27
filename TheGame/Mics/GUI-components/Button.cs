@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,9 @@ namespace TheGame.Mics
         public Rectangle rectangle;
 
         public string caption;
+#if ANDROID
+        public bool wasUntouched;
+#endif
 
 
 
@@ -42,6 +46,9 @@ namespace TheGame.Mics
             this.rectangle = rectangle;
             this.caption = caption;
             this.isAbleToClick = true;
+#if ANDROID
+            this.wasUntouched= false;
+#endif
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -70,6 +77,7 @@ namespace TheGame.Mics
 
         public override void Update(GameTime gameTime)
         {
+#if DESKTOP
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
 
@@ -84,6 +92,24 @@ namespace TheGame.Mics
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                     Click?.Invoke(this, new EventArgs());
             }
+#endif
+#if ANDROID
+
+            TouchCollection touch = TouchPanel.GetState();
+            if(touch.Count==0)
+                wasUntouched= true;
+            if ((touch.Count > 0)&&(wasUntouched))
+            {
+                Rectangle touchRectangle = new Rectangle((int)touch[0].Position.X, (int)touch[0].Position.Y, 1, 1);
+                if(rectangle.Contains(touchRectangle))
+                {
+                    Click?.Invoke(this, new EventArgs());
+                }
+            }
+
+
+#endif
+
         }
         public void ButtonSelected()
         {

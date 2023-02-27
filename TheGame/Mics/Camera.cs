@@ -1,6 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if ANDROID
+using Android.Content.Res;
+using Android.Views;
+#endif
+
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Screens;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +34,12 @@ namespace TheGame.Mics
         public void Follow(Sprite target,bool isZoomOn)
         {
             var position = Matrix.CreateTranslation(-target.rectangle.X - (target.rectangle.Width),-target.rectangle.Y - (target.rectangle.Height),0);
+#if DESKTOP
             var offset = Matrix.CreateTranslation( Game1.screenWidth / 2, Game1.screenHeight / 2 + Game1.screenHeight / 5,1);
+#endif
+#if ANDROID
+            var offset = Matrix.CreateTranslation(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/ 2, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2 + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 5, 1);
+#endif
             if (isZoomOn)
             {
                 if (Math.Abs(target.velocity.X) < Math.Abs(_previousVelocity.X))

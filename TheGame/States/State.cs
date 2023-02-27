@@ -14,6 +14,7 @@ namespace TheGame.States
         protected GraphicsDevice graphics;
         protected Game1 game;
         public SessionData session;
+        public GameInputController controller;
         public abstract void Initialize();
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);

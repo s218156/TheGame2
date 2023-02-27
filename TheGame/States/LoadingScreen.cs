@@ -24,6 +24,7 @@ namespace TheGame.States
                 loadingThread = new Thread(level.prepareLevel);
             else
                 loadingThread = new Thread(LoadGame);
+            controller = new GameInputController();
 
         }
 

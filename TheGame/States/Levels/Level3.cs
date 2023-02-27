@@ -41,7 +41,7 @@ namespace TheGame.States
 
         protected override void LoadMap()
         {
-            map = new TileMap(content.Load<TiledMap>("TileMaps//level3/Level3-map"), graphics);
+            map = new TileMap(content.Load<TiledMap>("TileMaps/Level3/level3-map"), graphics);
 
 
             Paralax p1 = new Paralax(content.Load<Texture2D>("Backgrounds/Level3/l3p1"), graphics, Vector2.Zero, new Vector2((float)0.5,0));
@@ -51,7 +51,7 @@ namespace TheGame.States
             _paralaxes.Add(p1);
             
 
-            effect = content.Load<Effect>("shaders/lightEffect");
+            effect = content.Load<Effect>("Shaders/lightEffect");
             isLightShader = true;
         }
     }

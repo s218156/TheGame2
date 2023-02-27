@@ -29,7 +29,7 @@ namespace TheGame.Items
             wasAccepted = false;
             this.captions = captions;
 
-            chatBox = new ChatBox(content.Load<Texture2D>("GameUI/chatBox"), rectangle, content.Load<SpriteFont>("Fonts/smallFont"));
+            chatBox = new ChatBox(content.Load<Texture2D>("gameUI/chatBox"), rectangle, content.Load<SpriteFont>("Fonts/smallFont"));
 
             rectangle.X = 4 * (rectangle.Width / 5);
             rectangle.Y = 3 * (rectangle.Height / 5);
