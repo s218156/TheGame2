@@ -48,7 +48,7 @@ namespace TheGame.States.Menu
 
             string path;
 #if DESKTOP
-path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame/Save1.xml");
+            path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame/Save1.xml");
 #endif
 #if ANDROID
             path = "/sdcard/TheGame/Save1.xml";
