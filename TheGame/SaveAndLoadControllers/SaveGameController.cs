@@ -93,7 +93,7 @@ namespace TheGame.SaveAndLoadControllers
         public SaveGameController LoadGame()
         {
 #if DESKTOP
-            using (var stream = new FileStream("Save1.xml", FileMode.Open))
+            using (var stream = new FileStream(Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame/Save1.xml"), FileMode.Open))
             {
                 var XML = new XmlSerializer(typeof(SaveGameController));
                 return (SaveGameController)XML.Deserialize(stream);
@@ -114,8 +114,12 @@ namespace TheGame.SaveAndLoadControllers
 
         public void SaveGame()
         {
+
 #if DESKTOP
-            using (var stream = new FileStream("Save1.xml", FileMode.Create))
+            string path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame");
+            if (!(File.Exists(path)))
+                    Directory.CreateDirectory(path);
+            using (var stream = new FileStream(path+"/Save1.xml", FileMode.Create))
             {
                 var XML = new XmlSerializer(typeof(SaveGameController));
                 XML.Serialize(stream, this);

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using TheGame.Mics;
 using TheGame.SaveAndLoadControllers;
@@ -27,29 +28,40 @@ namespace TheGame.States.Menu
 
             Button newGameButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("New Game"));
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
-
-            Button loadGameButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Load Game"));
-            y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+            newGameButton.Click += NewGameButtonClick;
 
             Button backButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((graphics.Viewport.Width / 10) * 9, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Back"));
-
-            newGameButton.Click += NewGameButtonClick;
-            loadGameButton.Click += LoadGameButtonClick;
             backButton.Click += backButtonClick;
 
 
             _components = new List<Component>()
             {
                 newGameButton,
-                loadGameButton,
                 backButton
             };
             _buttons = new List<Button>()
             {
                 newGameButton,
-                loadGameButton,
                 backButton
             };
+
+
+            string path;
+#if DESKTOP
+path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame/Save1.xml");
+#endif
+#if ANDROID
+            path = "/sdcard/TheGame/Save1.xml";
+#endif
+            if (File.Exists(path))
+            {
+                Button loadGameButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Load Game"));
+                y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+                loadGameButton.Click += LoadGameButtonClick;
+                _buttons.Add(loadGameButton);
+                _components.Add(loadGameButton);
+            }
+
             base.Initialize();
 
         }
