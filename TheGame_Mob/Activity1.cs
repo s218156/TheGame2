@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using Android.Views.InputMethods;
 using Microsoft.Xna.Framework;
 using TheGame;
 
@@ -34,5 +35,6 @@ namespace TheGame_Mob
             SetContentView(_view);
             _game.Run();
         }
+
     }
 }

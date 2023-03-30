@@ -76,9 +76,9 @@ namespace TheGame
         protected override void Update(GameTime gameTime)
         {
 #if ANDROID
-            TouchCollection touch = TouchPanel.GetState();
-            if(touch.Count> 0)
-                System.Diagnostics.Debug.WriteLine(touch[0].Position.X+", "+ touch[0].Position.Y);
+            
+
+
 #endif
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -130,6 +130,7 @@ namespace TheGame
             _graphics.ApplyChanges();
             screen.Save();
         }
+
 
     }
 }

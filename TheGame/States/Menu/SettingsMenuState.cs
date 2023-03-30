@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,6 +7,16 @@ using System.Collections.Generic;
 using System.Text;
 using TheGame.Mics;
 using TheGame.Sprites;
+#if ANDROID
+using Android.Content;
+using Android.Views;
+using Android.Views.InputMethods;
+using Android.Systems;
+using Android.App;
+using Android.Views.InputMethods;
+using Android.Views;
+#endif
+
 
 namespace TheGame.States.Menu
 {
@@ -113,6 +124,9 @@ namespace TheGame.States.Menu
             _buttons.Add(toogleFullScreenButton);
             _buttons.Add(applyButton);
             _buttons.Add(backButton);
+#if ANDROID
+
+#endif
 
             base.Initialize();
         }
