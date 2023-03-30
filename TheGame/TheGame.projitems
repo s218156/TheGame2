@@ -32,10 +32,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Items\Spring.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\Tourch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\WaterArea.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mics\AndroidKeyboardKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\ChatBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GameController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\AndroidControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\AndroidKeyboard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\GameUI.cs" />

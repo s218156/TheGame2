@@ -18,12 +18,17 @@ namespace TheGame.States.Menu
         protected List<Component> _components;
         protected List<Button> _buttons;
         protected Selection selection;
-        
+        private bool isKeyboardVisible;
+#if ANDROID
+        protected AndroidKeyboard _keyboard;
+#endif
+
 
         public MenuState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
         {
             _buttons = new List<Button>();
             _components = new List<Component>();
+            isKeyboardVisible= false;
         }
         
         public override void Initialize()
@@ -54,6 +59,10 @@ namespace TheGame.States.Menu
             selection.Draw(gameTime, spriteBatch);
 #endif
             spriteBatch.End();
+#if ANDROID
+            if (isKeyboardVisible)
+                _keyboard.Draw(gameTime, spriteBatch);
+#endif
         }
 
         public override void Update(GameTime gameTime)
@@ -70,6 +79,13 @@ namespace TheGame.States.Menu
                 tmp.Update(new Player(null,Vector2.Zero,null,1),graphics);
             }
         }
+
+        public void ToogleKeyboard()
+        {
+            isKeyboardVisible = !isKeyboardVisible;
+        }
+
+
 
     }
     

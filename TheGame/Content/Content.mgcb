@@ -310,6 +310,30 @@
 /processorParam:TextureFormat=Color
 /build:gameUI/heart.png
 
+#begin gameUI/misc/black_rectangle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameUI/misc/black_rectangle.png
+
+#begin gameUI/misc/keyboard/Q.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameUI/misc/keyboard/Q.png
+
 #begin Items/bridgeB.png
 /importer:TextureImporter
 /processor:TextureProcessor

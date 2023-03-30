@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheGame.Mics;
 using TheGame.Sprites;
+using TheGame.Mics.GUI_components;
 #if ANDROID
 using Android.Content;
 using Android.Views;
@@ -83,6 +84,9 @@ namespace TheGame.States.Menu
 
         public override void Initialize()
         {
+#if ANDROID
+            _keyboard = new AndroidKeyboard(graphics.Viewport.Height, graphics.Viewport.Width, content.Load<Texture2D>("gameUI/misc/black_rectangle"), content);
+#endif
             Texture2D buttonTexture = content.Load<Texture2D>("gameUI/button");
             //Dodawanie przycisków powrotu i zastosowania zmian
             int x = (graphics.Viewport.Width / 10) * 8;
@@ -124,11 +128,12 @@ namespace TheGame.States.Menu
             _buttons.Add(toogleFullScreenButton);
             _buttons.Add(applyButton);
             _buttons.Add(backButton);
-#if ANDROID
-
-#endif
 
             base.Initialize();
+#if ANDROID
+            
+            ToogleKeyboard();
+#endif
         }
     }
 }
