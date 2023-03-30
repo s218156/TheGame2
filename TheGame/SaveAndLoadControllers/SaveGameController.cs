@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if ANDROID
+using Android.Media;
+#endif
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -89,20 +92,50 @@ namespace TheGame.SaveAndLoadControllers
 
         public SaveGameController LoadGame()
         {
-            using (var stream = new FileStream("save1.xml", FileMode.Open))
+#if DESKTOP
+            using (var stream = new FileStream(Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame/Save1.xml"), FileMode.Open))
             {
                 var XML = new XmlSerializer(typeof(SaveGameController));
                 return (SaveGameController)XML.Deserialize(stream);
             }
-        }
+#endif
+#if ANDROID
+
+            using (TextReader stream = new StreamReader("/sdcard/TheGame/Save1.xml"))
+            {
+                var XML = new XmlSerializer(typeof(SaveGameController));
+                return (SaveGameController)XML.Deserialize(stream);
+            }
+
+#endif
+
+
+            }
 
         public void SaveGame()
         {
-            using (var stream = new FileStream("Save1.xml", FileMode.Create))
+
+#if DESKTOP
+            string path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame");
+            if (!(File.Exists(path)))
+                    Directory.CreateDirectory(path);
+            using (var stream = new FileStream(path+"/Save1.xml", FileMode.Create))
             {
                 var XML = new XmlSerializer(typeof(SaveGameController));
                 XML.Serialize(stream, this);
             }
+#endif
+#if ANDROID
+
+            if (!(File.Exists("/sdcard/TheGame")))
+                Directory.CreateDirectory("/sdcard/TheGame");
+            using (var stream = new StreamWriter("/sdcard/TheGame/Save1.xml"))
+            {
+                var XML = new XmlSerializer(typeof(SaveGameController));
+                XML.Serialize(stream, this);
+            }
+#endif
+
         }
 
     }
