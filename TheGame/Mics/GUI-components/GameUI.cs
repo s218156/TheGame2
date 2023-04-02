@@ -47,7 +47,7 @@ namespace TheGame.Mics.GUI_components
         {
             spriteBatch.Draw(boxTexture, boxRectangle, Color.White);
             spriteBatch.Draw(coinTexture,new Rectangle(boxRectangle.X+(boxRectangle.Width/12), boxRectangle.Y+(boxRectangle.Height/4), (boxRectangle.Width / 12), (boxRectangle.Height / 4)),Color.White);
-            spriteBatch.DrawString(font, session.GetPlayerPoints().ToString(), new Vector2(boxRectangle.X + (6*boxRectangle.Width)/30, boxRectangle.Y + (boxRectangle.Height / 4)),Color.Goldenrod);
+            spriteBatch.DrawString(font, session.GetPlayerPoints().ToString(), new Vector2(boxRectangle.X + (6*boxRectangle.Width)/30, boxRectangle.Y + (boxRectangle.Height / 4)),Color.Goldenrod, 0.0f,Vector2.Zero,1.5f, SpriteEffects.None,0.0f);
 
             for(int i = 0; i < session.GetPlayerLives(); i++)
                 spriteBatch.Draw(lifeTexture, new Rectangle(boxRectangle.X + (boxRectangle.Width / 12) + i * (boxRectangle.Width / 12), boxRectangle.Y + (boxRectangle.Height / 2), (boxRectangle.Width / 12), (boxRectangle.Height / 4)), Color.White);
