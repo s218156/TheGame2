@@ -36,7 +36,9 @@ namespace TheGame.Mics.GUI_components
 
         public void PrepareKeyboard(ContentManager content)
         {
-            List<string> symbolsA =new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l" , "OK", "SHIFT", "z", "x","c","v","b","n","m","REMOVE"," ","123!",","," "," "," "," "," ",".","@"};
+            List<string> symbolsA =new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l" , ";", "SHIFT", "z", "x","c","v","b","n","m","REMOVE"," ","123!",","," "," "," "," "," ",".","OK"};
+            List<string> symbolsAShift = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "SHIFT", "Z", "X", "C", "V", "B", "N", "M", "REMOVE", " ", "123!", ",", " ", " ", " ", " ", " ", ".", "OK" };
+            List<string> symbolsB = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "+", "x", "\\", "=", "/", "_", "<", ">", "[", "]", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "", "-", "'", "\"", ":", ";", ",", "?", "REMOVE", " ", "ABC", ",", " ", " ", " ", " ", " ", ".", "OK" };
             Texture2D keyTexture = content.Load<Texture2D>("gameUI/button");
             SpriteFont keyFont = content.Load<SpriteFont>("Fonts/Basic");
             int widthUnit = rectangle.Width / 311;
