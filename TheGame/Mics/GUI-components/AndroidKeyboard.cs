@@ -36,7 +36,7 @@ namespace TheGame.Mics.GUI_components
 
         public void PrepareKeyboard(ContentManager content)
         {
-            List<string> symbolsA =new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l" , "OK", "SHIFT", "z", "x","c","v","b","n","m","REMOVE"," ","123!",","," ",".","@"};
+            List<string> symbolsA =new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l" , "OK", "SHIFT", "z", "x","c","v","b","n","m","REMOVE"," ","123!",","," "," "," "," "," ",".","@"};
             Texture2D keyTexture = content.Load<Texture2D>("gameUI/button");
             SpriteFont keyFont = content.Load<SpriteFont>("Fonts/Basic");
             int widthUnit = rectangle.Width / 311;
@@ -60,20 +60,20 @@ namespace TheGame.Mics.GUI_components
                         }
                         else
                         {
-                            keys.Add(new AndroidKeyboardKey(rectangle.X + widthUnit + ((j - 1) * 30 * widthUnit) + Convert.ToInt32(30 * widthUnit * 0.5), rectangle.Y + ((3 + i) * heightUnit) + (2 + i) * 30 * heightUnit, Convert.ToInt32(30 * widthUnit * 1.5), 30 * heightUnit, keyTexture, keyFont, "Q"));
+                            keys.Add(new AndroidKeyboardKey(rectangle.X + (widthUnit * j)+ ((j - 1) * 30 * widthUnit) + Convert.ToInt32(30 * widthUnit * 0.5), rectangle.Y + ((3 + i) * heightUnit) + (2 + i) * 30 * heightUnit, Convert.ToInt32(30 * widthUnit * 1.5), 30 * heightUnit, keyTexture, keyFont, symbolsA[((i + 2) * 10) + (j - 1)]));
                         } 
                     }
                     else
                     {
                         if((i == 1)||((i==2)&&((j==2)||j==8)))
                         {
-                            keys.Add(new AndroidKeyboardKey(rectangle.X + widthUnit + ((j - 1) * 30 * widthUnit) + Convert.ToInt32(30 * widthUnit * 0.5), rectangle.Y + ((3 + i) * heightUnit) + (2 + i) * 30 * heightUnit, 30 * widthUnit, 30 * heightUnit, keyTexture, keyFont, "Q"));
+                            keys.Add(new AndroidKeyboardKey(rectangle.X + (widthUnit * j) + ((j - 1) * 30 * widthUnit) + Convert.ToInt32(30 * widthUnit * 0.5), rectangle.Y + ((3 + i) * heightUnit) + (2 + i) * 30 * heightUnit, 30 * widthUnit, 30 * heightUnit, keyTexture, keyFont, symbolsA[((i + 2) * 10) + (j - 1)]));
                         }
                         else
                         {
                             if ((i == 2) && (j == 3))
                             {
-                                keys.Add(new AndroidKeyboardKey(rectangle.X + widthUnit + ((j - 1) * 30 * widthUnit) + Convert.ToInt32(30 * widthUnit * 0.5), rectangle.Y + ((3 + i) * heightUnit) + (2 + i) * 30 * heightUnit, (30 * widthUnit*5)+(4*widthUnit), 30 * heightUnit, keyTexture, keyFont, "Q"));
+                                keys.Add(new AndroidKeyboardKey(rectangle.X + (widthUnit * j) + ((j - 1) * 30 * widthUnit) + Convert.ToInt32(30 * widthUnit * 0.5), rectangle.Y + ((3 + i) * heightUnit) + (2 + i) * 30 * heightUnit, (30 * widthUnit*5)+(4*widthUnit), 30 * heightUnit, keyTexture, keyFont, symbolsA[((i + 2) * 10) + (j - 1)]));
                             }
                         }
                     }
