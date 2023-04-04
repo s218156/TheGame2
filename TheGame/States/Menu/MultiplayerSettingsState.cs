@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using TheGame.Mics;
+using TheGame.Mics.GUI_components;
 #if ANDROID
 using Android.Content;
 using Android.Views;
@@ -18,14 +19,14 @@ using Android.Views;
 namespace TheGame.States.Menu
 {
 
-    class SettingsMenuState : MenuState
+    class MultiplayerSettingsState : MenuState
     {
         private Button resolutionButton, toogleFullScreenButton, multiplayerButton;
         private int height, width;
         private int[,] resolutionTable;
         private bool isFullScreen;
 
-        public SettingsMenuState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
+        public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
         {
             resolutionTable = new int[,] { { 640, 360 }, { 800, 450 }, { 1280, 720 }, { 1600, 900 }, { 1920, 1080 } };
 
@@ -58,11 +59,6 @@ namespace TheGame.States.Menu
             game.ChangeState(new MainMenuState(game, graphics, content, null));
         }
 
-        private void MultiplayerButtonClick(object sender, EventArgs e)
-        {
-            game.ChangeState(new MultiplayerSettingsState(game, graphics, content, null));
-        }
-
         private void ApplyButtonClick(object sender, EventArgs e)
         {
             game.ChangeResolution(isFullScreen, height, width);
@@ -85,6 +81,9 @@ namespace TheGame.States.Menu
 
         public override void Initialize()
         {
+#if ANDROID
+            _keyboard = new AndroidKeyboard(graphics.Viewport.Height, graphics.Viewport.Width, content.Load<Texture2D>("gameUI/misc/black_rectangle"), content);
+#endif
             Texture2D buttonTexture = content.Load<Texture2D>("gameUI/button");
             //Dodawanie przycisków powrotu i zastosowania zmian
             int x = (graphics.Viewport.Width / 10) * 8;
@@ -129,7 +128,6 @@ namespace TheGame.States.Menu
             //#endif
             _components.Add(multiplayerButton);
             _buttons.Add(multiplayerButton);
-            multiplayerButton.Click += MultiplayerButtonClick;
             _components.Add(backButton);
 
 
@@ -137,7 +135,10 @@ namespace TheGame.States.Menu
             _buttons.Add(backButton);
 
             base.Initialize();
+#if ANDROID
 
+            ToogleKeyboard();
+#endif
         }
     }
 }

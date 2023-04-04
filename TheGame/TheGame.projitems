@@ -32,7 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Items\Spring.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\Tourch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\WaterArea.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mics\AndroidKeyboardKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\AndroidKeyboardKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\ChatBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GameController.cs" />
@@ -79,6 +79,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\Menu\MainMenuState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Menu\MenuState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Menu\PauseMenuState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\Menu\MultiplayerSettingsState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Menu\SettingsMenuState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Menu\StartGameMenuState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />

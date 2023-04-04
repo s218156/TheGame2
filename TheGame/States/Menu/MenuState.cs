@@ -1,18 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using TheGame.Mics;
 using TheGame.Mics.GUI_components;
 using TheGame.Sprites;
 
 namespace TheGame.States.Menu
 {
-    class MenuState:State
+    class MenuState : State
     {
         protected List<Paralax> _paralaxes;
         protected List<Component> _components;
@@ -28,9 +24,9 @@ namespace TheGame.States.Menu
         {
             _buttons = new List<Button>();
             _components = new List<Component>();
-            isKeyboardVisible= false;
+            isKeyboardVisible = false;
         }
-        
+
         public override void Initialize()
         {
 #if DESKTOP
@@ -39,7 +35,7 @@ namespace TheGame.States.Menu
 #endif
 
             _paralaxes = new List<Paralax>();
-            
+
             _paralaxes.Add(new Paralax(content.Load<Texture2D>("Backgrounds/Level0/l0p2"), graphics, new Vector2(3, 0), new Vector2((float)0.5, (float)0.9)));
             _paralaxes.Add(new Paralax(content.Load<Texture2D>("Backgrounds/Level0/l0p3"), graphics, new Vector2((float)2, 0), new Vector2((float)0.5, (float)0.9)));
             _paralaxes.Add(new Paralax(content.Load<Texture2D>("Backgrounds/Level0/l0p0"), graphics, new Vector2((float)1, 0), new Vector2((float)0.5, (float)0.9)));
@@ -49,7 +45,7 @@ namespace TheGame.States.Menu
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            foreach(var tmp in _paralaxes)
+            foreach (var tmp in _paralaxes)
             {
                 tmp.Draw(gameTime, spriteBatch);
             }
@@ -73,10 +69,14 @@ namespace TheGame.States.Menu
 #if DESKTOP
                 selection.Update(_buttons);
 #endif
+#if ANDROID
+                if (isKeyboardVisible)
+                    _keyboard.Update(gameTime);
+#endif
             }
-            foreach(Paralax tmp in _paralaxes)
+            foreach (Paralax tmp in _paralaxes)
             {
-                tmp.Update(new Player(null,Vector2.Zero,null,1),graphics);
+                tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);
             }
         }
 
@@ -88,5 +88,5 @@ namespace TheGame.States.Menu
 
 
     }
-    
+
 }
