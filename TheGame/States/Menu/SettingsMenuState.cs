@@ -100,7 +100,7 @@ namespace TheGame.States.Menu
             multiplayerButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), "Multiplayer");
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
 
-            //#if DESKTOP
+#if DESKTOP
             resolutionButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Resolution: " + width + " X " + height));
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
 
@@ -126,7 +126,7 @@ namespace TheGame.States.Menu
             _buttons.Add(toogleFullScreenButton);
             _components.Add(applyButton);
             _buttons.Add(applyButton);
-            //#endif
+#endif
             _components.Add(multiplayerButton);
             _buttons.Add(multiplayerButton);
             multiplayerButton.Click += MultiplayerButtonClick;
