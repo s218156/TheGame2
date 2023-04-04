@@ -79,15 +79,10 @@ namespace TheGame.Mics.GUI_components
                     break;
             }
 
-            Console.WriteLine(inputValue);
-
-
-
             foreach (AndroidKeyboardKey key in keys)
             {
                 key.Update(gameTime, regularKeyboard, upperKeyboard, symbolicKeyboard);
             }
-
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

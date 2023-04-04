@@ -8,35 +8,15 @@ using System.Text;
 
 namespace TheGame.Mics
 {
-    class Button : Component
+    class Button : ClickableComponent
     {
-        private MouseState _currentMouse;
 
         private SpriteFont _font;
 
-        private bool _isHovering;
-
-
-        private MouseState _previousMouse;
 
         private Texture2D _texture;
-
-        public bool isAbleToClick;
-
-        public event EventHandler Click;
-
-        public bool Clicked { get; private set; }
-
         public Color PenColour { get; set; }
-
-        public Rectangle rectangle;
-
         public string caption;
-#if ANDROID
-        public bool wasUntouched;
-#endif
-
-
 
         public Button(Texture2D texture, SpriteFont font, Rectangle rectangle, String caption)
         {
@@ -75,46 +55,6 @@ namespace TheGame.Mics
             }
         }
 
-        public override void Update(GameTime gameTime)
-        {
-#if DESKTOP
-            _previousMouse = _currentMouse;
-            _currentMouse = Mouse.GetState();
-
-            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
-
-            _isHovering = false;
-
-            if (mouseRectangle.Intersects(rectangle))
-            {
-                _isHovering = true;
-
-                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
-                    Click?.Invoke(this, new EventArgs());
-            }
-#endif
-#if ANDROID
-
-            TouchCollection touch = TouchPanel.GetState();
-            if(touch.Count==0)
-                wasUntouched= true;
-            if ((touch.Count > 0)&&(wasUntouched))
-            {
-                Rectangle touchRectangle = new Rectangle((int)touch[0].Position.X, (int)touch[0].Position.Y, 1, 1);
-                if(rectangle.Contains(touchRectangle))
-                {
-                    Click?.Invoke(this, new EventArgs());
-                }
-            }
-
-
-#endif
-
-        }
-        public void ButtonSelected()
-        {
-            Click?.Invoke(this, new EventArgs());
-        }
         public void unHoverButton()
         {
             _isHovering = false;

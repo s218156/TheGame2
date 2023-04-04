@@ -63,17 +63,16 @@ namespace TheGame.States.Menu
 
         public override void Update(GameTime gameTime)
         {
-            foreach (Button item in _components)
-            {
+            foreach (Component item in _components)
                 item.Update(gameTime);
 #if DESKTOP
-                selection.Update(_buttons);
+            selection.Update(_buttons);
 #endif
 #if ANDROID
-                if (isKeyboardVisible)
-                    _keyboard.Update(gameTime);
+            if (isKeyboardVisible)
+                _keyboard.Update(gameTime);
 #endif
-            }
+            
             foreach (Paralax tmp in _paralaxes)
             {
                 tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);

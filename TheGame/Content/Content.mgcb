@@ -10,11 +10,9 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:c:\Users\MichalMatusiak\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:C:\Users\Studio\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
-
-
 
 #begin Audio/handleCoins.ogg
 /importer:OggImporter
@@ -311,6 +309,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:gameUI/heart.png
+
+#begin gameUI/inputBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameUI/inputBox.png
 
 #begin gameUI/misc/black_rectangle.png
 /importer:TextureImporter
