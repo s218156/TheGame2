@@ -48,8 +48,17 @@ namespace TheGame.States.Menu
             if (inputTarger == null)
                 inputTarger = (InputBox)sender;
             else
-                inputTarger = (InputBox)sender;
+                inputTarger = null;
 #if ANDROID
+            int y = graphics.Viewport.Height / 2;
+            if (inputTarger != null)
+                y = -1*y;
+                
+            foreach (Button button in _buttons)
+            {
+
+                button.MoveButton(0, y);
+            }
             ToogleKeyboard();
 #endif
         }
@@ -79,24 +88,16 @@ namespace TheGame.States.Menu
             multiplayerButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), "Multiplayer");
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
 
-            //#if DESKTOP
-
-
-            //backButton.Click += backButtonClick;
-            //applyButton.Click += ApplyButtonClick;
+            backButton.Click += backButtonClick;
+            applyButton.Click += ApplyButtonClick;
             _components.Add(loginBox);
             _components.Add(passBox);
-            //_components.Add(applyButton);
-            //_buttons.Add(applyButton);
-            //#endif
-            _components.Add(multiplayerButton);
-            _buttons.Add(multiplayerButton);
-            //_components.Add(backButton);
+            _components.Add(applyButton);
+            _buttons.Add(applyButton);
+            _components.Add(backButton);
             loginBox.Click += InputBoxClick;
             passBox.Click += InputBoxClick;
-
-
-            //_buttons.Add(backButton);
+            _buttons.Add(backButton);
 
             base.Initialize();
         }

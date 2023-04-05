@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Android.Text.Style;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -47,9 +48,8 @@ namespace TheGame.States.Menu
         {
             spriteBatch.Begin();
             foreach (var tmp in _paralaxes)
-            {
                 tmp.Draw(gameTime, spriteBatch);
-            }
+
             foreach (var item in _components)
                 item.Draw(gameTime, spriteBatch);
 #if DESKTOP
@@ -72,14 +72,13 @@ namespace TheGame.States.Menu
 #if ANDROID
             if (isKeyboardVisible)
                 _keyboard.Update(gameTime);
+            
             if (inputTarger != null)
                 inputTarger.UpdateValue(_keyboard.inputValue);
 #endif
 
             foreach (Paralax tmp in _paralaxes)
-            {
                 tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);
-            }
         }
 
         public void ToogleKeyboard()

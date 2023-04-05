@@ -60,5 +60,11 @@ namespace TheGame.Mics
             _isHovering = false;
         }
 
+        public void MoveButton(int x, int y)
+        {
+            rectangle.X=rectangle.X+x;
+            rectangle.Y=rectangle.Y+y;
+        }
+
     }
 }

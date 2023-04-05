@@ -67,7 +67,9 @@ namespace TheGame.Mics
 
         public void InvokeClick()
         {
+#if ANDROID
             wasUntouched = true;
+#endif
             Click?.Invoke(this, new EventArgs());
         }
     }
