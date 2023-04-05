@@ -1,14 +1,12 @@
-﻿using Microsoft.Xna.Framework.Input.Touch;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using System;
 
 namespace TheGame.Mics
 {
-    public class ClickableComponent:Component
+    public class ClickableComponent : Component
     {
         protected MouseState _currentMouse;
         protected MouseState _previousMouse;
@@ -52,7 +50,7 @@ namespace TheGame.Mics
                 Rectangle touchRectangle = new Rectangle((int)touch[0].Position.X, (int)touch[0].Position.Y, 1, 1);
                 if (rectangle.Contains(touchRectangle))
                 {
-                    wasUntouched= false;
+                    wasUntouched = false;
                     Click?.Invoke(this, new EventArgs());
                 }
             }
@@ -67,9 +65,10 @@ namespace TheGame.Mics
             throw new NotImplementedException();
         }
 
-        public void ButtonSelected()
+        public void InvokeClick()
         {
-            //Click?.Invoke(this, new EventArgs());
+            wasUntouched = true;
+            Click?.Invoke(this, new EventArgs());
         }
     }
 }

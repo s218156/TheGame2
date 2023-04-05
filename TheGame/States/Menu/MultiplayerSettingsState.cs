@@ -45,6 +45,10 @@ namespace TheGame.States.Menu
         }
         private void InputBoxClick(object sender, EventArgs e)
         {
+            if (inputTarger == null)
+                inputTarger = (InputBox)sender;
+            else
+                inputTarger = (InputBox)sender;
 #if ANDROID
             ToogleKeyboard();
 #endif
@@ -60,8 +64,9 @@ namespace TheGame.States.Menu
             //Dodawanie przycisków powrotu i zastosowania zmian
             int x = (graphics.Viewport.Width / 10) * 8;
 
-            InputBox loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x/8)*3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)));
-            x += graphics.Viewport.Width / 10 + graphics.Viewport.Height / 11;
+            InputBox loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)));
+
+            InputBox passBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)));
 
             Button applyButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(x, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Apply"));
             x += graphics.Viewport.Width / 10 + graphics.Viewport.Height / 11;
@@ -75,21 +80,23 @@ namespace TheGame.States.Menu
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
 
             //#if DESKTOP
-            
 
-            backButton.Click += backButtonClick;
-            applyButton.Click += ApplyButtonClick;
+
+            //backButton.Click += backButtonClick;
+            //applyButton.Click += ApplyButtonClick;
             _components.Add(loginBox);
-            _components.Add(applyButton);
-            _buttons.Add(applyButton);
+            _components.Add(passBox);
+            //_components.Add(applyButton);
+            //_buttons.Add(applyButton);
             //#endif
             _components.Add(multiplayerButton);
             _buttons.Add(multiplayerButton);
-            _components.Add(backButton);
+            //_components.Add(backButton);
             loginBox.Click += InputBoxClick;
+            passBox.Click += InputBoxClick;
 
 
-            _buttons.Add(backButton);
+            //_buttons.Add(backButton);
 
             base.Initialize();
         }

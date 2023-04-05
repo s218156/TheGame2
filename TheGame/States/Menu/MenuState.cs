@@ -15,6 +15,7 @@ namespace TheGame.States.Menu
         protected List<Button> _buttons;
         protected Selection selection;
         private bool isKeyboardVisible;
+        protected InputBox inputTarger;
 #if ANDROID
         protected AndroidKeyboard _keyboard;
 #endif
@@ -71,8 +72,10 @@ namespace TheGame.States.Menu
 #if ANDROID
             if (isKeyboardVisible)
                 _keyboard.Update(gameTime);
+            if (inputTarger != null)
+                inputTarger.UpdateValue(_keyboard.inputValue);
 #endif
-            
+
             foreach (Paralax tmp in _paralaxes)
             {
                 tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);

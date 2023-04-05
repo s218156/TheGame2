@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TheGame.Mics.GUI_components
 {
@@ -21,15 +18,24 @@ namespace TheGame.Mics.GUI_components
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
-            spriteBatch.DrawString(font, value,new Vector2(rectangle.X+(rectangle.Width/10),rectangle.Y+(rectangle.Height/5)), Color.Black);
+            spriteBatch.DrawString(font, value, new Vector2(rectangle.X + (rectangle.Width / 10), rectangle.Y + (rectangle.Height / 5)), Color.Black);
         }
 
         public void UpdateValue(string symbol)
         {
-            if (value.Equals("REMOVE"))
-                value = value.Remove(value.Length - 1);
-            else
-                value += symbol;
+            switch (symbol)
+            {
+                case "REMOVE":
+                    if (value.Length > 0)
+                        value = value.Remove(value.Length - 1);
+                    break;
+                case "OK":
+                    InvokeClick();
+                    break;
+                default:
+                    value += symbol;
+                    break;
+            }
         }
     }
 }
