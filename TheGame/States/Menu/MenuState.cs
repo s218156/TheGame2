@@ -1,7 +1,8 @@
-﻿using Android.Text.Style;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using TheGame.Mics;
 using TheGame.Mics.GUI_components;
@@ -11,6 +12,7 @@ namespace TheGame.States.Menu
 {
     class MenuState : State
     {
+        private bool wasControllerUp = true;
         protected List<Paralax> _paralaxes;
         protected List<Component> _components;
         protected List<Button> _buttons;
@@ -64,21 +66,34 @@ namespace TheGame.States.Menu
 
         public override void Update(GameTime gameTime)
         {
-            foreach (Component item in _components)
-                item.Update(gameTime);
+
+            if (wasControllerUp)
+            {
+                foreach (Component item in _components)
+                    item.Update(gameTime);
+            }
+
 #if DESKTOP
             selection.Update(_buttons);
 #endif
 #if ANDROID
-            if (isKeyboardVisible)
+            if (isKeyboardVisible && wasControllerUp)
                 _keyboard.Update(gameTime);
-            
+
             if (inputTarger != null)
-                inputTarger.UpdateValue(_keyboard.inputValue);
+                inputTarger.UpdateValue(_keyboard.GetValue());
 #endif
 
             foreach (Paralax tmp in _paralaxes)
                 tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);
+
+#if DESKTOP
+            wasControllerUp = Mouse.GetState().LeftButton != ButtonState.Pressed
+#endif
+
+#if ANDROID
+            wasControllerUp = TouchPanel.GetState().Count == 0;
+#endif
         }
 
         public void ToogleKeyboard()

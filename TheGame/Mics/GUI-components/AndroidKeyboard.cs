@@ -93,6 +93,13 @@ namespace TheGame.Mics.GUI_components
             spriteBatch.End();
         }
 
+        public string GetValue()
+        {
+            string tmp = inputValue;
+            inputValue = "";
+            return tmp;
+        }
+
         public void PrepareKeyboard(ContentManager content)
         {
             List<string> symbolsA = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "SHIFT", "z", "x", "c", "v", "b", "n", "m", "REMOVE", " ", "123!", ",", " ", " ", " ", " ", " ", ".", "OK" };
