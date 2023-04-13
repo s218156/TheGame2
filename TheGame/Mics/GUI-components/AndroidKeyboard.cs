@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace TheGame.Mics.GUI_components
 {
-    public class AndroidKeyboard
+    public class AndroidKeyboard : KeyboardInputBase
     {
         private Rectangle rectangle;
         private Texture2D texture;
@@ -26,7 +26,7 @@ namespace TheGame.Mics.GUI_components
             PrepareKeyboard(content);
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             inputValue = "";
             TouchCollection touches = TouchPanel.GetState();
@@ -84,7 +84,7 @@ namespace TheGame.Mics.GUI_components
                 key.Update(gameTime, regularKeyboard, upperKeyboard, symbolicKeyboard);
             }
         }
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(texture, rectangle, Color.White);
@@ -93,12 +93,7 @@ namespace TheGame.Mics.GUI_components
             spriteBatch.End();
         }
 
-        public string GetValue()
-        {
-            string tmp = inputValue;
-            inputValue = "";
-            return tmp;
-        }
+
 
         public void PrepareKeyboard(ContentManager content)
         {

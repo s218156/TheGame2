@@ -44,7 +44,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\GameUI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\InputBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\KeyboardInputBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\PCKeyboardInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\GUI-components\Selection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\PhysicalObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\ScreenSettings.cs" />

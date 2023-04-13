@@ -49,18 +49,19 @@ namespace TheGame.States.Menu
                 inputTarger = (InputBox)sender;
             else
                 inputTarger = null;
+
 #if ANDROID
             int y = graphics.Viewport.Height / 2;
             if (inputTarger != null)
-                y = -1*y;
-                
+                y = -1 * y;
+
             foreach (Button button in _buttons)
             {
 
                 button.MoveButton(0, y);
             }
-            ToogleKeyboard();
 #endif
+            ToogleKeyboard();
         }
 
 
@@ -69,17 +70,20 @@ namespace TheGame.States.Menu
 #if ANDROID
             _keyboard = new AndroidKeyboard(graphics.Viewport.Height, graphics.Viewport.Width, content.Load<Texture2D>("gameUI/misc/black_rectangle"), content);
 #endif
+#if DESKTOP
+            _keyboard=new PCKeyboardInput();
+#endif
             Texture2D buttonTexture = content.Load<Texture2D>("gameUI/button");
             //Dodawanie przycisków powrotu i zastosowania zmian
             int x = (graphics.Viewport.Width / 10) * 8;
 
-            DrawableElement formBackground = new DrawableElement(content.Load<Texture2D>("gameUI/form_background"), new Rectangle(Convert.ToInt32((x / 8) * 2), (graphics.Viewport.Height / 10) * 2, (x/8)*3, Convert.ToInt32(graphics.Viewport.Height/2.5)));
+            DrawableElement formBackground = new DrawableElement(content.Load<Texture2D>("gameUI/form_background"), new Rectangle(Convert.ToInt32((x / 8) * 2), (graphics.Viewport.Height / 10) * 2, (x / 8) * 3, Convert.ToInt32(graphics.Viewport.Height / 2.5)));
 
             _components.Add(formBackground);
 
-            InputBox loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)));
+            InputBox loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
 
-            InputBox passBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)));
+            InputBox passBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
 
             Button applyButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(x, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Apply"));
             x += graphics.Viewport.Width / 10 + graphics.Viewport.Height / 11;

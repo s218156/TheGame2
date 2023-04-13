@@ -20,7 +20,10 @@ namespace TheGame.States.Menu
         private bool isKeyboardVisible;
         protected InputBox inputTarger;
 #if ANDROID
-        protected AndroidKeyboard _keyboard;
+        protected KeyboardInputBase _keyboard;
+#endif
+#if DESKTOP
+        protected PCKeyboardInput _keyboard;
 #endif
 
 
@@ -75,6 +78,8 @@ namespace TheGame.States.Menu
 
 #if DESKTOP
             selection.Update(_buttons);
+            if(isKeyboardVisible)
+                _keyboard.Update(gameTime);
 #endif
 #if ANDROID
             if (isKeyboardVisible && wasControllerUp)
@@ -88,7 +93,7 @@ namespace TheGame.States.Menu
                 tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);
 
 #if DESKTOP
-            wasControllerUp = Mouse.GetState().LeftButton != ButtonState.Pressed
+            wasControllerUp = Mouse.GetState().LeftButton != ButtonState.Pressed;
 #endif
 
 #if ANDROID
