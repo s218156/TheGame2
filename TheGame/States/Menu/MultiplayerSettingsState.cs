@@ -73,6 +73,10 @@ namespace TheGame.States.Menu
             //Dodawanie przycisków powrotu i zastosowania zmian
             int x = (graphics.Viewport.Width / 10) * 8;
 
+            DrawableElement formBackground = new DrawableElement(content.Load<Texture2D>("gameUI/form_background"), new Rectangle(Convert.ToInt32((x / 8) * 2), (graphics.Viewport.Height / 10) * 2, (x/8)*3, Convert.ToInt32(graphics.Viewport.Height/2.5)));
+
+            _components.Add(formBackground);
+
             InputBox loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)));
 
             InputBox passBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)));

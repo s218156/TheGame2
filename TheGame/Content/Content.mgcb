@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:C:\Users\MichalMatusiak\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:C:\Users\Studio\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -285,6 +285,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:gameUI/controls/pause.png
+
+#begin gameUI/form_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameUI/form_background.png
 
 #begin gameUI/frame.png
 /importer:TextureImporter
