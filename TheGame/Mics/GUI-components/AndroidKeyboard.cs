@@ -15,8 +15,6 @@ namespace TheGame.Mics.GUI_components
         private bool regularKeyboard = true;
         private bool upperKeyboard = false;
         private bool symbolicKeyboard = false;
-        public string inputValue;
-
 
         public AndroidKeyboard(int screenHeight, int screenWidth, Texture2D texture, ContentManager content)
         {

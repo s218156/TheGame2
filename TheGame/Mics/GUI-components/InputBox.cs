@@ -9,6 +9,7 @@ namespace TheGame.Mics.GUI_components
         private string value;
         private SpriteFont font;
         private string placeholder;
+        private string _previousValue;
         public InputBox(Texture2D texture, SpriteFont font, Rectangle rectangle, string placeholder)
         {
             this.rectangle = rectangle;
@@ -16,6 +17,7 @@ namespace TheGame.Mics.GUI_components
             this.font = font;
             this.value = "";
             this.placeholder = placeholder;
+
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -28,6 +30,7 @@ namespace TheGame.Mics.GUI_components
 
         public void UpdateValue(string symbol)
         {
+            _previousValue = value;
             switch (symbol)
             {
                 case "REMOVE":
@@ -41,6 +44,11 @@ namespace TheGame.Mics.GUI_components
                     value += symbol;
                     break;
             }
+        }
+
+        public bool DidValueChanged()
+        {
+            return value != _previousValue;
         }
     }
 }

@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using TheGame.Mics;
 using TheGame.Mics.GUI_components;
 using TheGame.Sprites;
@@ -19,12 +21,7 @@ namespace TheGame.States.Menu
         protected Selection selection;
         private bool isKeyboardVisible;
         protected InputBox inputTarger;
-#if ANDROID
         protected KeyboardInputBase _keyboard;
-#endif
-#if DESKTOP
-        protected PCKeyboardInput _keyboard;
-#endif
 
 
         public MenuState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
@@ -78,27 +75,30 @@ namespace TheGame.States.Menu
 
 #if DESKTOP
             selection.Update(_buttons);
-            if(isKeyboardVisible)
-                _keyboard.Update(gameTime);
 #endif
-#if ANDROID
             if (isKeyboardVisible && wasControllerUp)
                 _keyboard.Update(gameTime);
 
             if (inputTarger != null)
+            {
                 inputTarger.UpdateValue(_keyboard.GetValue());
-#endif
+            }
+                
+
 
             foreach (Paralax tmp in _paralaxes)
                 tmp.Update(new Player(null, Vector2.Zero, null, 1), graphics);
+            
 
 #if DESKTOP
-            wasControllerUp = Mouse.GetState().LeftButton != ButtonState.Pressed;
+            wasControllerUp = ((Mouse.GetState().LeftButton != ButtonState.Pressed));
+            
 #endif
 
 #if ANDROID
             wasControllerUp = TouchPanel.GetState().Count == 0;
 #endif
+
         }
 
         public void ToogleKeyboard()
