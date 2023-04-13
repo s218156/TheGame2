@@ -33,7 +33,10 @@ namespace TheGame.Mics.GUI_components
             }
             if (numeric.Contains(key))
             {
-                return key.Substring(1,1);
+                if (shifted)
+                    return key.Substring(1, 1);
+                else
+                    return "Special";
             }
             return key;
 
