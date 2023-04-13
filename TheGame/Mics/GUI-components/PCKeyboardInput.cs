@@ -27,9 +27,9 @@ namespace TheGame.Mics.GUI_components
             if (alphaSigns.Contains(key))
             {
                 if (shifted)
-                    return key.ToLower();
-                else
                     return key.ToUpper();
+                else
+                    return key.ToLower();
             }
             if (numeric.Contains(key))
             {
@@ -46,9 +46,9 @@ namespace TheGame.Mics.GUI_components
             Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
             if (pressedKeys.Length > 0)
             {
+                shifted = false;
                 if (pressedKeys.Length == 1)
                 {
-                    Debug.WriteLine(pressedKeys[0]);
                     if (avalableValues.Contains(pressedKeys[0].ToString()))
                     {
                         if (_previousValue != CharacterFactory(pressedKeys[0].ToString()))
@@ -57,7 +57,26 @@ namespace TheGame.Mics.GUI_components
                         }
                         else
                             repeated= true;
-                        
+                    }
+                }
+                else
+                {
+                    if(pressedKeys.Length == 2)
+                    {
+                        int sign = 0;
+                        int special = 0;
+                        for(int i =0;i<pressedKeys.Length;i++)
+                        {
+                            if (avalableValues.Contains(pressedKeys[i].ToString()))
+                                sign = i;
+                            else
+                                special = i;
+                        }
+                        shifted = pressedKeys[special].ToString().Contains("Shift");
+                        if(_previousValue!= CharacterFactory(pressedKeys[sign].ToString()))
+                            inputValue = CharacterFactory(pressedKeys[sign].ToString());
+                        else
+                            repeated = true;
                     }
                 }
             }
