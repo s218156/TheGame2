@@ -25,7 +25,18 @@ namespace TheGame.Mics.GUI_components
             if (value.Length == 0)
                 spriteBatch.DrawString(font, placeholder, new Vector2(rectangle.X + (rectangle.Width / 10), rectangle.Y + (rectangle.Height / 5)), Color.Gray);
             else
-                spriteBatch.DrawString(font, value, new Vector2(rectangle.X + (rectangle.Width / 10), rectangle.Y + (rectangle.Height / 5)), Color.Black);
+            {
+                if (placeholder == "Password")
+                {
+                    string toPrint = "";
+                    foreach (char a in value)
+                        toPrint += "*";
+                    spriteBatch.DrawString(font, toPrint, new Vector2(rectangle.X + (rectangle.Width / 10), rectangle.Y + (rectangle.Height / 5)), Color.Black);
+                }
+                else
+                    spriteBatch.DrawString(font, value, new Vector2(rectangle.X + (rectangle.Width / 10), rectangle.Y + (rectangle.Height / 5)), Color.Black);
+            }
+
         }
 
         public void UpdateValue(string symbol)

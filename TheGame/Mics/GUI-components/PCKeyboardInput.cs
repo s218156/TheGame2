@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 
 namespace TheGame.Mics.GUI_components
 {
@@ -13,8 +9,8 @@ namespace TheGame.Mics.GUI_components
     {
         private string _previousValue = "";
         private bool shifted = false;
-        private List<string> avalableValues= new List<string>() { "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D0", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "OemSemicolon", "Z", "X", "C", "V", "B", "N", "M", "OemComma", "OemPeriod", "OemPlus", "OemBackslash", "OemQuestion", "OemMinus", "OemOpenBrackets", "OemCloseBrackets", "OemQuotes" };
-        
+        private List<string> avalableValues = new List<string>() { "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D0", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "OemSemicolon", "Z", "X", "C", "V", "B", "N", "M", "OemComma", "OemPeriod", "OemPlus", "OemBackslash", "OemQuestion", "OemMinus", "OemOpenBrackets", "OemCloseBrackets", "OemQuotes" };
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
@@ -40,7 +36,7 @@ namespace TheGame.Mics.GUI_components
             }
             return key;
 
-                
+
         }
 
         public override void Update(GameTime gameTime)
@@ -59,16 +55,29 @@ namespace TheGame.Mics.GUI_components
                             inputValue = CharacterFactory(pressedKeys[0].ToString());
                         }
                         else
-                            repeated= true;
+                            repeated = true;
+                    }
+                    else
+                    {
+                        if (pressedKeys[0] == Keys.Back)
+                        {
+                            if (_previousValue != "REMOVE")
+                            {
+                                inputValue = "REMOVE";
+                            }
+                            else
+                                repeated = true;
+                        }
+
                     }
                 }
                 else
                 {
-                    if(pressedKeys.Length == 2)
+                    if (pressedKeys.Length == 2)
                     {
                         int sign = 0;
                         int special = 0;
-                        for(int i =0;i<pressedKeys.Length;i++)
+                        for (int i = 0; i < pressedKeys.Length; i++)
                         {
                             if (avalableValues.Contains(pressedKeys[i].ToString()))
                                 sign = i;
@@ -76,7 +85,7 @@ namespace TheGame.Mics.GUI_components
                                 special = i;
                         }
                         shifted = pressedKeys[special].ToString().Contains("Shift");
-                        if(_previousValue!= CharacterFactory(pressedKeys[sign].ToString()))
+                        if (_previousValue != CharacterFactory(pressedKeys[sign].ToString()))
                             inputValue = CharacterFactory(pressedKeys[sign].ToString());
                         else
                             repeated = true;
