@@ -30,7 +30,7 @@ namespace TheGame.Multiplayer
             }
         }
 
-        public void SaveUserConfiguration(string username)
+        public void SaveUserConfiguration(string username, string password)
         {
             //ask API for userPrivateKey
             data.userPrivateKey = "";

@@ -61,5 +61,10 @@ namespace TheGame.Mics.GUI_components
         {
             return value != _previousValue;
         }
+
+        public string GetValue()
+        {
+            return value;
+        }
     }
 }
