@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Animations\CharacterAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations\ItemAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations\leverAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animations\LoadingBarAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations\SpringAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations\WaterAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />

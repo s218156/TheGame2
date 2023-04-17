@@ -6,6 +6,7 @@ using System;
 using TheGame.Mics;
 using TheGame.Mics.GUI_components;
 using TheGame.Multiplayer;
+using TheGame.Animations;
 #if ANDROID
 using Android.Content;
 using Android.Views;
@@ -26,6 +27,7 @@ namespace TheGame.States.Menu
         private int height, width;
         private MultiplayerUserConfig multiplayerConfig;
         private InputBox loginBox, passwordBox;
+        private LoadingBarAnimation loadingBar;
 
 
         public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
@@ -111,7 +113,7 @@ namespace TheGame.States.Menu
             }
             else
             {
-
+                loadingBar = new LoadingBarAnimation(content.Load<Texture2D>("gameUI/loading_bar_animation"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 9)), 3, 1, "Connecting to server", content.Load<SpriteFont>("Fonts/Basic"));
             }
 
             Button applyButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(x, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Apply"));
@@ -135,6 +137,24 @@ namespace TheGame.States.Menu
             _buttons.Add(backButton);
 
             base.Initialize();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if(loadingBar!=null)
+                loadingBar.Update(gameTime, null);
+        }
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
+            if (loadingBar != null)
+            {
+                spriteBatch.Begin();
+                loadingBar.Draw(gameTime, spriteBatch);
+                spriteBatch.End();
+            }
+
         }
     }
 }
