@@ -6,7 +6,6 @@ using System;
 using TheGame.Mics;
 using TheGame.Mics.GUI_components;
 using TheGame.Multiplayer;
-using System.Linq;
 #if ANDROID
 using Android.Content;
 using Android.Views;
@@ -71,6 +70,7 @@ namespace TheGame.States.Menu
         private void LoginButtonClick(object sender, EventArgs e)
         {
             multiplayerConfig.SaveUserConfiguration(loginBox.GetValue(), passwordBox.GetValue());
+            game.ChangeState(new MultiplayerSettingsState(game, graphics, content, null));
         }
 
 
@@ -88,15 +88,31 @@ namespace TheGame.States.Menu
             //Dodawanie przycisków powrotu i zastosowania zmian
             int x = (graphics.Viewport.Width / 10) * 8;
 
-            DrawableElement formBackground = new DrawableElement(content.Load<Texture2D>("gameUI/form_background"), new Rectangle(Convert.ToInt32((x / 8) * 2), (graphics.Viewport.Height / 10) * 2, (x / 8) * 3, Convert.ToInt32(graphics.Viewport.Height / 2.5)));
+            DrawableElement formBackground = new DrawableElement(content.Load<Texture2D>("gameUI/form_background"), new Rectangle(Convert.ToInt32((x / 8)), (graphics.Viewport.Height / 10) * 2, (x / 8) * 4, Convert.ToInt32(graphics.Viewport.Height / 2.5)));
 
             _components.Add(formBackground);
 
-            loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
+            if (!multiplayerConfig.CheckIfUserIsConfigured())
+            {
+                loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
 
-            passwordBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
+                passwordBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
 
-            Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, (graphics.Viewport.Height / 10) * 3 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Login"));
+                Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Login"));
+
+                loginButton.Click += LoginButtonClick;
+                _components.Add(loginButton);
+                _buttons.Add(loginButton);
+                _components.Add(loginBox);
+                _components.Add(passwordBox);
+                loginBox.Click += InputBoxClick;
+                passwordBox.Click += InputBoxClick;
+
+            }
+            else
+            {
+
+            }
 
             Button applyButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(x, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Apply"));
             x += graphics.Viewport.Width / 10 + graphics.Viewport.Height / 11;
@@ -109,17 +125,13 @@ namespace TheGame.States.Menu
             multiplayerButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), "Multiplayer");
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
 
+
             backButton.Click += backButtonClick;
             applyButton.Click += ApplyButtonClick;
-            _components.Add(loginBox);
-            _components.Add(passwordBox);
-            _components.Add(loginButton);
+
             _components.Add(applyButton);
             _buttons.Add(applyButton);
-            _buttons.Add(loginButton);
             _components.Add(backButton);
-            loginBox.Click += InputBoxClick;
-            passwordBox.Click += InputBoxClick;
             _buttons.Add(backButton);
 
             base.Initialize();

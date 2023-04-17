@@ -9,6 +9,11 @@ namespace TheGame.Multiplayer
         MultiplayerData data;
         private string path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame");
 
+        public MultiplayerUserConfig()
+        {
+            data = new MultiplayerData();
+        }
+
 
         public bool CheckIfUserIsConfigured()
         {
