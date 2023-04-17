@@ -101,12 +101,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TheGame_Desktop\TheGame_Desktop.csproj">
-      <Project>{3B367276-2859-4A3E-8424-A21E15519928}</Project>
-      <Name>TheGame_Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="..\TheGame\TheGame.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

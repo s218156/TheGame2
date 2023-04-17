@@ -70,14 +70,14 @@ namespace TheGame.States.Menu
 
         private void LoginButtonClick(object sender, EventArgs e)
         {
-            multiplayerConfig.SaveUserConfiguration();
+            multiplayerConfig.SaveUserConfiguration(loginBox.GetValue(), passwordBox.GetValue());
         }
 
 
 
         public override void Initialize()
         {
-            multiplayerConfig = new MultiplayerUserConfig(loginBox.GetValue(),passwordBox.GetValue());
+            multiplayerConfig = new MultiplayerUserConfig();
 #if ANDROID
             _keyboard = new AndroidKeyboard(graphics.Viewport.Height, graphics.Viewport.Width, content.Load<Texture2D>("gameUI/misc/black_rectangle"), content);
 #endif
