@@ -55,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mics\ScrollingBackground\Paralax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\SessionData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\SubLevelTrigger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerConfigWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerUserConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveAndLoadControllers\GameMasterData.cs" />

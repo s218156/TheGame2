@@ -28,12 +28,14 @@ namespace TheGame.States.Menu
         private MultiplayerUserConfig multiplayerConfig;
         private InputBox loginBox, passwordBox;
         private LoadingBarAnimation loadingBar;
+        private MultiplayerConfigWorker multiplayerConfigWorker;
 
 
         public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
         {
             height = graphics.Viewport.Height;
             width = graphics.Viewport.Width;
+            this.multiplayerConfigWorker = new MultiplayerConfigWorker();
             Initialize();
         }
 
@@ -110,6 +112,8 @@ namespace TheGame.States.Menu
                 loginBox.Click += InputBoxClick;
                 passwordBox.Click += InputBoxClick;
 
+
+
             }
             else
             {
@@ -136,14 +140,21 @@ namespace TheGame.States.Menu
             _components.Add(backButton);
             _buttons.Add(backButton);
 
+            multiplayerConfigWorker.StartWorker();
+
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if(loadingBar!=null)
-                loadingBar.Update(gameTime, null);
+            if (!multiplayerConfigWorker.attemptCompleted)
+            {
+                if (loadingBar != null)
+                    loadingBar.Update(gameTime, null);
+            }
+
+
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
