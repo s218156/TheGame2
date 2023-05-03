@@ -21,7 +21,6 @@ namespace TheGame.Multiplayer
             {
                 try
                 {
-                    //login
                     return true;
                 }
                 catch (Exception ex)
@@ -33,6 +32,11 @@ namespace TheGame.Multiplayer
             {
                 return false;
             }
+        }
+
+        public void UpdateMultiplayerData(MultiplayerData data)
+        {
+            this.data = data;
         }
 
         public void SaveUserConfiguration(string username, string password)

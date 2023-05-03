@@ -7,6 +7,7 @@ using TheGame.Mics;
 using TheGame.Mics.GUI_components;
 using TheGame.Multiplayer;
 using TheGame.Animations;
+using System.Collections.Generic;
 #if ANDROID
 using Android.Content;
 using Android.Views;
@@ -29,6 +30,7 @@ namespace TheGame.States.Menu
         private InputBox loginBox, passwordBox;
         private LoadingBarAnimation loadingBar;
         private MultiplayerConfigWorker multiplayerConfigWorker;
+        private List<Component> formObjects = new List<Component>();
 
 
         public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
@@ -74,7 +76,7 @@ namespace TheGame.States.Menu
         private void LoginButtonClick(object sender, EventArgs e)
         {
             multiplayerConfig.SaveUserConfiguration(loginBox.GetValue(), passwordBox.GetValue());
-            game.ChangeState(new MultiplayerSettingsState(game, graphics, content, null));
+            multiplayerConfigWorker.StartWorker(loginBox.GetValue(), passwordBox.GetValue());
         }
 
 
@@ -96,29 +98,24 @@ namespace TheGame.States.Menu
 
             _components.Add(formBackground);
 
-            if (!multiplayerConfig.CheckIfUserIsConfigured())
-            {
-                loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
+            loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
 
-                passwordBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
+            passwordBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
 
-                Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Login"));
+            Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Login"));
 
-                loginButton.Click += LoginButtonClick;
-                _components.Add(loginButton);
-                _buttons.Add(loginButton);
-                _components.Add(loginBox);
-                _components.Add(passwordBox);
-                loginBox.Click += InputBoxClick;
-                passwordBox.Click += InputBoxClick;
+            loginButton.Click += LoginButtonClick;
+            formObjects.Add(loginButton);
+            formObjects.Add(loginBox);
+            formObjects.Add(passwordBox);
+            loginBox.Click += InputBoxClick;
+            passwordBox.Click += InputBoxClick;
 
 
 
-            }
-            else
-            {
-                loadingBar = new LoadingBarAnimation(content.Load<Texture2D>("gameUI/loading_bar_animation"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 9)), 3, 1, "Connecting to server", content.Load<SpriteFont>("Fonts/Basic"));
-            }
+
+            loadingBar = new LoadingBarAnimation(content.Load<Texture2D>("gameUI/loading_bar_animation"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 9)), 3, 1, "Connecting to server", content.Load<SpriteFont>("Fonts/Basic"));
+
 
             Button applyButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(x, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Apply"));
             x += graphics.Viewport.Width / 10 + graphics.Viewport.Height / 11;
@@ -139,32 +136,71 @@ namespace TheGame.States.Menu
             _buttons.Add(applyButton);
             _components.Add(backButton);
             _buttons.Add(backButton);
-
-            multiplayerConfigWorker.StartWorker();
-
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (!multiplayerConfigWorker.attemptCompleted)
+
+            if (multiplayerConfigWorker.attemptCompleted)
             {
-                if (loadingBar != null)
-                    loadingBar.Update(gameTime, null);
+
             }
+            else
+            {
+                if ((!multiplayerConfig.CheckIfUserIsConfigured()) || (!multiplayerConfigWorker.attemptBegan))
+                {
+                    foreach (Component obj in formObjects)
+                    {
+                        obj.Update(gameTime);
+                    }
+                }
+                else
+                {
+                    multiplayerConfig.UpdateMultiplayerData(multiplayerConfigWorker.GetMultiplayerData());
+                    if (loadingBar != null)
+                        loadingBar.Update(gameTime, null);
+                }
+            }
+
+
 
 
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             base.Draw(gameTime, spriteBatch);
-            if (loadingBar != null)
+
+
+
+            spriteBatch.Begin();
+
+            if (multiplayerConfigWorker.attemptCompleted)
             {
-                spriteBatch.Begin();
-                loadingBar.Draw(gameTime, spriteBatch);
-                spriteBatch.End();
+
             }
+            else
+            {
+                if ((!multiplayerConfig.CheckIfUserIsConfigured()) || (!multiplayerConfigWorker.attemptBegan))
+                {
+                    foreach (Component obj in formObjects)
+                    {
+                        obj.Draw(gameTime, spriteBatch);
+                    }
+
+                }
+                else
+                {
+                    if (loadingBar != null)
+                    {
+                        loadingBar.Draw(gameTime, spriteBatch);
+                    }
+                }
+            }
+
+
+            spriteBatch.End();
 
         }
     }
