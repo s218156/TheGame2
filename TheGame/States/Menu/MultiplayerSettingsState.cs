@@ -155,18 +155,24 @@ namespace TheGame.States.Menu
 
             if (multiplayerConfigWorker.attemptCompleted)
             {
+                multiplayerConfig.UpdateMultiplayerData(multiplayerConfigWorker.GetMultiplayerData());
                 if (multiplayerConfigWorker.userConfirmed)
                 {
 
                 }
                 else
                 {
+                    multiplayerConfig.RemoveConfigFile();
                     foreach (Component obj in retryFormObjects)
                         obj.Update(gameTime);
                 }
             }
             else
             {
+                if (multiplayerConfig.CheckIfUserIsConfigured())
+                {
+                    multiplayerConfigWorker.ValidatePlayerData(multiplayerConfig.GetUserConfigFromFile());
+                }
                 if ((!multiplayerConfig.CheckIfUserIsConfigured()) || (!multiplayerConfigWorker.attemptBegan))
                 {
                     foreach (Component obj in formObjects)

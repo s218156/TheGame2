@@ -26,10 +26,34 @@ namespace TheGame.Multiplayer
             Thread.Sleep(5000);
             multiplayerData.userPrivateKey = "testUserPrivateKeyFromWorker";
             attemptCompleted = true;
+            //if(multiplayerData.userPrivateKey.Length > 100)
+            //userConfirmed = true;
 
-            userConfirmed = true;
+
 
         }
+
+        public void ValidatePlayerData(MultiplayerData data)
+        {
+            if (data != null)
+            {
+                multiplayerData = data;
+                worker = new Thread(VerifyUser);
+                worker.Start();
+            }
+            else
+            {
+                attemptBegan = true;
+                attemptCompleted = true;
+            }
+
+
+
+
+
+
+        }
+
         public void StartWorker(string username, string password)
         {
             attemptBegan = true;
