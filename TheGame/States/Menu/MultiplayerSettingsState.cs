@@ -31,6 +31,7 @@ namespace TheGame.States.Menu
         private LoadingBarAnimation loadingBar;
         private MultiplayerConfigWorker multiplayerConfigWorker;
         private List<Component> formObjects = new List<Component>();
+        private List<Component> retryFormObjects = new List<Component>();
 
 
         public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
@@ -79,6 +80,11 @@ namespace TheGame.States.Menu
             multiplayerConfigWorker.StartWorker(loginBox.GetValue(), passwordBox.GetValue());
         }
 
+        private void RetryButtonClick(object sender, EventArgs e)
+        {
+            game.ChangeState(new MultiplayerSettingsState(game, graphics, content, session));
+        }
+
 
 
         public override void Initialize()
@@ -104,6 +110,10 @@ namespace TheGame.States.Menu
 
             Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Login"));
 
+            Button retryButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Retry"));
+
+            retryButton.Click += RetryButtonClick;
+            retryFormObjects.Add(retryButton);
             loginButton.Click += LoginButtonClick;
             formObjects.Add(loginButton);
             formObjects.Add(loginBox);
@@ -145,7 +155,15 @@ namespace TheGame.States.Menu
 
             if (multiplayerConfigWorker.attemptCompleted)
             {
+                if (multiplayerConfigWorker.userConfirmed)
+                {
 
+                }
+                else
+                {
+                    foreach (Component obj in retryFormObjects)
+                        obj.Update(gameTime);
+                }
             }
             else
             {
@@ -178,7 +196,15 @@ namespace TheGame.States.Menu
 
             if (multiplayerConfigWorker.attemptCompleted)
             {
+                if (multiplayerConfigWorker.userConfirmed)
+                {
 
+                }
+                else
+                {
+                    foreach (Component obj in retryFormObjects)
+                        obj.Draw(gameTime, spriteBatch);
+                }
             }
             else
             {

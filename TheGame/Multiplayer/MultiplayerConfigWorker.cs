@@ -26,6 +26,7 @@ namespace TheGame.Multiplayer
             Thread.Sleep(5000);
             multiplayerData.userPrivateKey = "testUserPrivateKeyFromWorker";
             attemptCompleted = true;
+
             userConfirmed = true;
 
         }
