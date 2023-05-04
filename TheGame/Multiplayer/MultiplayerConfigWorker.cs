@@ -27,7 +27,7 @@ namespace TheGame.Multiplayer
             multiplayerData.userPrivateKey = "testUserPrivateKeyFromWorker";
             attemptCompleted = true;
             //if(multiplayerData.userPrivateKey.Length > 100)
-            //userConfirmed = true;
+            userConfirmed = true;
 
 
 

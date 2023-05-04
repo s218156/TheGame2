@@ -17,7 +17,7 @@ namespace TheGame.Multiplayer
 
         public bool CheckIfUserIsConfigured()
         {
-            if (File.Exists(path + "/mulpiplayerConfig.xml"))
+            if (File.Exists(path + "/multiplayerConfig.xml"))
             {
                 try
                 {
@@ -39,11 +39,9 @@ namespace TheGame.Multiplayer
             this.data = data;
         }
 
-        public void SaveUserConfiguration(string username, string password)
+        public void SaveUserConfiguration(MultiplayerData data)
         {
-            //ask API for userPrivateKey
-            data.userPrivateKey = "";
-            data.username = username;
+            this.data = data;
 
             if (!(File.Exists(path)))
                 Directory.CreateDirectory(path);
@@ -58,7 +56,7 @@ namespace TheGame.Multiplayer
         {
             try
             {
-                using (var stream = new FileStream(path + "/mulpiplayerConfig.xml", FileMode.Open))
+                using (var stream = new FileStream(path + "/multiplayerConfig.xml", FileMode.Open))
                 {
                     var XML = new XmlSerializer(typeof(MultiplayerData));
                     return (MultiplayerData)XML.Deserialize(stream);

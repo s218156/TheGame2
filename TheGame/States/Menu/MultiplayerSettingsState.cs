@@ -76,7 +76,6 @@ namespace TheGame.States.Menu
 
         private void LoginButtonClick(object sender, EventArgs e)
         {
-            multiplayerConfig.SaveUserConfiguration(loginBox.GetValue(), passwordBox.GetValue());
             multiplayerConfigWorker.StartWorker(loginBox.GetValue(), passwordBox.GetValue());
         }
 
@@ -158,7 +157,7 @@ namespace TheGame.States.Menu
                 multiplayerConfig.UpdateMultiplayerData(multiplayerConfigWorker.GetMultiplayerData());
                 if (multiplayerConfigWorker.userConfirmed)
                 {
-
+                    multiplayerConfig.SaveUserConfiguration(multiplayerConfigWorker.GetMultiplayerData());
                 }
                 else
                 {
@@ -169,23 +168,28 @@ namespace TheGame.States.Menu
             }
             else
             {
-                if (multiplayerConfig.CheckIfUserIsConfigured())
+                if (!multiplayerConfig.CheckIfUserIsConfigured())
                 {
-                    multiplayerConfigWorker.ValidatePlayerData(multiplayerConfig.GetUserConfigFromFile());
-                }
-                if ((!multiplayerConfig.CheckIfUserIsConfigured()) || (!multiplayerConfigWorker.attemptBegan))
-                {
-                    foreach (Component obj in formObjects)
+                    
+                    if (!multiplayerConfigWorker.attemptBegan)
                     {
-                        obj.Update(gameTime);
+                        foreach (Component obj in formObjects)
+                            obj.Update(gameTime);
+                    }
+                    else
+                    {
+                        if (loadingBar != null)
+                            loadingBar.Update(gameTime, null);
                     }
                 }
                 else
                 {
-                    multiplayerConfig.UpdateMultiplayerData(multiplayerConfigWorker.GetMultiplayerData());
+                    if (!multiplayerConfigWorker.attemptBegan)
+                        multiplayerConfigWorker.ValidatePlayerData(multiplayerConfig.GetUserConfigFromFile());
                     if (loadingBar != null)
                         loadingBar.Update(gameTime, null);
                 }
+                
             }
 
 
@@ -214,21 +218,25 @@ namespace TheGame.States.Menu
             }
             else
             {
-                if ((!multiplayerConfig.CheckIfUserIsConfigured()) || (!multiplayerConfigWorker.attemptBegan))
+                if (!multiplayerConfig.CheckIfUserIsConfigured())
                 {
-                    foreach (Component obj in formObjects)
+                    if (!multiplayerConfigWorker.attemptBegan)
                     {
-                        obj.Draw(gameTime, spriteBatch);
+                        foreach (Component obj in formObjects)
+                            obj.Draw(gameTime, spriteBatch);
                     }
-
+                    else
+                    {
+                        if (loadingBar != null)
+                            loadingBar.Draw(gameTime, spriteBatch);
+                    }
                 }
                 else
                 {
                     if (loadingBar != null)
-                    {
                         loadingBar.Draw(gameTime, spriteBatch);
-                    }
                 }
+
             }
 
 
