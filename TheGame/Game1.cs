@@ -2,13 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System.Threading;
 using TheGame.Mics;
 using TheGame.States;
 using TheGame.States.Menu;
-using System.Diagnostics;
-using Microsoft.Xna.Framework.Input.Touch;
+using TheGame.Multiplayer;
 
 #if ANDROID
 using Android.Service.Voice;
@@ -27,12 +25,12 @@ namespace TheGame
         private Camera _camera;
         public ScreenSettings screen;
         private State _gameState;
+        public MultiplayerObject multiplayerUser;
         public Game1()
         {
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
             IsMouseVisible = true;
 
         }
@@ -41,7 +39,7 @@ namespace TheGame
         {
             _nextState = state;
         }
-           
+
 
         protected override void Initialize()
         {
@@ -68,7 +66,7 @@ namespace TheGame
             _graphics.PreferredBackBufferHeight = screen.height;
             _graphics.IsFullScreen = screen.isFullScreen;
             _graphics.ApplyChanges();
-            _currentState = new MainMenuState(this, GraphicsDevice, Content,null);
+            _currentState = new MainMenuState(this, GraphicsDevice, Content, null);
             _camera = new Camera();
 
         }
@@ -76,14 +74,14 @@ namespace TheGame
         protected override void Update(GameTime gameTime)
         {
 #if ANDROID
-            
+
 
 
 #endif
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-            if(!(_currentState is MenuState))
+            if (!(_currentState is MenuState))
             {
                 if ((_currentState.controller.isPause))
                 {
@@ -94,7 +92,7 @@ namespace TheGame
                     _currentState = new PauseMenuState(this, GraphicsDevice, Content, _gameState, null);
                 }
             }
-            
+
 
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;
@@ -105,7 +103,7 @@ namespace TheGame
                 _currentState = _nextState;
                 _nextState = null;
             }
-            
+
 
             base.Update(gameTime);
         }
@@ -114,7 +112,7 @@ namespace TheGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _currentState.Draw(gameTime, _spriteBatch);
-            
+
 
             base.Draw(gameTime);
         }
@@ -126,7 +124,7 @@ namespace TheGame
             screen.isFullScreen = isFullScreen;
             _graphics.PreferredBackBufferWidth = width;
             _graphics.PreferredBackBufferHeight = height;
-            _graphics.IsFullScreen=isFullScreen;
+            _graphics.IsFullScreen = isFullScreen;
             _graphics.ApplyChanges();
             screen.Save();
         }

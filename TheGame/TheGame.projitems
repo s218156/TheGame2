@@ -57,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mics\SubLevelTrigger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerConfigWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerUserConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveAndLoadControllers\GameMasterData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveAndLoadControllers\ItemData.cs" />
