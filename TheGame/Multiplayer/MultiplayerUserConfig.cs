@@ -70,8 +70,8 @@ namespace TheGame.Multiplayer
         }
         public void RemoveConfigFile()
         {
-            if (File.Exists(path + "/mulpiplayerConfig.xml"))
-                File.Delete(path + "/mulpiplayerConfig.xml");
+            if (File.Exists(path + "/multiplayerConfig.xml"))
+                File.Delete(path + "/multiplayerConfig.xml");
         }
     }
 }

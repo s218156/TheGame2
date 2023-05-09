@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace TheGame.Multiplayer
 {
@@ -9,6 +10,7 @@ namespace TheGame.Multiplayer
         public bool attemptBegan = false;
         public bool userConfirmed = false;
         public bool attemptCompleted = false;
+        string password;
         private Thread worker;
 
         public void UpdateMultiplayerData(MultiplayerData multiplayerData)
@@ -20,14 +22,39 @@ namespace TheGame.Multiplayer
         {
             return this.multiplayerData;
         }
-        private void VerifyUser()
+        private async void VerifyUser()
         {
+            if(password != null)
+            {
+                try
+                {
+                    multiplayerData.userPrivateKey = await MultiplayerCommunicationService.AuthenticateUser(multiplayerData.username, password);
+                    if (multiplayerData.userPrivateKey.Length > 100)
+                        userConfirmed = true;
+                }catch (Exception ex)
+                {
 
-            Thread.Sleep(5000);
-            multiplayerData.userPrivateKey = "testUserPrivateKeyFromWorker";
+                }
+                
+            }
+            else
+            {
+                try
+                {
+                    await MultiplayerCommunicationService.VerifyUserConfig(multiplayerData.username, multiplayerData.userPrivateKey);
+                    userConfirmed = true;
+                }
+                catch (Exception e)
+                {
+                    userConfirmed = false;
+                    throw e;
+                }
+                
+
+            }
+                
             attemptCompleted = true;
-            //if(multiplayerData.userPrivateKey.Length > 100)
-            userConfirmed = true;
+            
 
 
 
@@ -37,6 +64,7 @@ namespace TheGame.Multiplayer
         {
             if (data != null)
             {
+                attemptBegan = true;
                 multiplayerData = data;
                 worker = new Thread(VerifyUser);
                 worker.Start();
@@ -56,6 +84,7 @@ namespace TheGame.Multiplayer
 
         public void StartWorker(string username, string password)
         {
+            this.password = password;
             attemptBegan = true;
             multiplayerData = new MultiplayerData();
             multiplayerData.username = username;
