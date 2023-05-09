@@ -74,12 +74,6 @@ namespace TheGame.Multiplayer
                 attemptBegan = true;
                 attemptCompleted = true;
             }
-
-
-
-
-
-
         }
 
         public void StartWorker(string username, string password)

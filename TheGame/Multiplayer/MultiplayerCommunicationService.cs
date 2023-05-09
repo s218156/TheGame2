@@ -5,6 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+#if ANDROID
+using static Android.Media.Session.MediaSession;
+#endif
 
 namespace TheGame.Multiplayer
 {
@@ -61,5 +64,23 @@ namespace TheGame.Multiplayer
 
             }
         }
+
+        public static async Task<MultiplayerObject> GetMultiplayerObject(MultiplayerData data)
+        {
+            using (var client = new HttpClient())
+            {
+                //client.BaseAddress = new Uri("http://thegame2-backend-env.eba-4tmmzhaz.eu-central-1.elasticbeanstalk.com");
+                client.BaseAddress = new Uri("https://localhost:44348");
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("username", data.username);
+                client.DefaultRequestHeaders.Add("token", data.userPrivateKey);
+                HttpResponseMessage res = await client.GetAsync("/user/GetDataOfUser");
+                if (!res.IsSuccessStatusCode)
+                    throw new Exception();
+                else
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<MultiplayerObject>(res.Content.ReadAsStringAsync().Result);
+            }
+        } 
     }
 }

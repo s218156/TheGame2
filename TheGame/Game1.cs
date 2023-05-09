@@ -7,6 +7,7 @@ using TheGame.Mics;
 using TheGame.States;
 using TheGame.States.Menu;
 using TheGame.Multiplayer;
+using System;
 
 #if ANDROID
 using Android.Service.Voice;
@@ -68,6 +69,8 @@ namespace TheGame
             _graphics.ApplyChanges();
             _currentState = new MainMenuState(this, GraphicsDevice, Content, null);
             _camera = new Camera();
+            Thread t1 = new Thread(GetDataForUser);
+            t1.Start();
 
         }
 
@@ -127,6 +130,24 @@ namespace TheGame
             _graphics.IsFullScreen = isFullScreen;
             _graphics.ApplyChanges();
             screen.Save();
+        }
+
+        public async void GetDataForUser()
+        {
+            MultiplayerUserConfig mutliplayerConfig = new MultiplayerUserConfig();
+            try
+            {
+                
+                MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
+                await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
+                multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
+            }catch(Exception e)
+            {
+                mutliplayerConfig.RemoveConfigFile();
+                multiplayerUser = null;
+            }
+            
+
         }
 
 
