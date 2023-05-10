@@ -8,6 +8,8 @@ using TheGame.States;
 using TheGame.States.Menu;
 using TheGame.Multiplayer;
 using System;
+using TheGame.Mics.GUI_components;
+using MonoGame.Extended.Content;
 
 #if ANDROID
 using Android.Service.Voice;
@@ -27,6 +29,7 @@ namespace TheGame
         public ScreenSettings screen;
         private State _gameState;
         public MultiplayerObject multiplayerUser;
+        private MultiplayerUserHUD multiplayerHUD;
         public Game1()
         {
 
@@ -69,8 +72,8 @@ namespace TheGame
             _graphics.ApplyChanges();
             _currentState = new MainMenuState(this, GraphicsDevice, Content, null);
             _camera = new Camera();
-            Thread t1 = new Thread(GetDataForUser);
-            t1.Start();
+            StartGettingUserData();
+            
 
         }
 
@@ -118,6 +121,16 @@ namespace TheGame
 
 
             base.Draw(gameTime);
+            if((_currentState is  MenuState)&&(!(_currentState is MultiplayerSettingsState))) 
+            {
+                if (multiplayerHUD != null)
+                {
+                    _spriteBatch.Begin();
+                    multiplayerHUD.Draw(gameTime, _spriteBatch);
+                    _spriteBatch.End();
+                }
+            }
+            
         }
 
         public void ChangeResolution(bool isFullScreen, int height, int width)
@@ -132,6 +145,12 @@ namespace TheGame
             screen.Save();
         }
 
+        public void StartGettingUserData()
+        {
+            Thread t1 = new Thread(GetDataForUser);
+            t1.Start();
+        }
+
         public async void GetDataForUser()
         {
             MultiplayerUserConfig mutliplayerConfig = new MultiplayerUserConfig();
@@ -141,6 +160,8 @@ namespace TheGame
                 MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
                 await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
                 multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
+                string textureName = "gameUI/playerMiniature/" + multiplayerUser.textureId.ToString();
+                multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(screenWidth - screenWidth / 5, 10, (screenWidth / 6) + 10, (screenHeight / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
             }catch(Exception e)
             {
                 mutliplayerConfig.RemoveConfigFile();

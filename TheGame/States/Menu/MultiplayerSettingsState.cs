@@ -32,6 +32,7 @@ namespace TheGame.States.Menu
         private MultiplayerConfigWorker multiplayerConfigWorker;
         private List<Component> formObjects = new List<Component>();
         private List<Component> retryFormObjects = new List<Component>();
+        private bool obtainDataWasTriggered = false;
 
 
         public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
@@ -120,7 +121,12 @@ namespace TheGame.States.Menu
             loginBox.Click += InputBoxClick;
             passwordBox.Click += InputBoxClick;
 
-
+            if(game.multiplayerUser != null)
+            {
+                multiplayerConfigWorker.attemptBegan = true;
+                multiplayerConfigWorker.attemptCompleted = true;
+                multiplayerConfigWorker.userConfirmed = true;
+            }
 
 
             loadingBar = new LoadingBarAnimation(content.Load<Texture2D>("gameUI/loading_bar_animation"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 9)), 3, 1, "Connecting to server", content.Load<SpriteFont>("Fonts/Basic"));
@@ -158,6 +164,12 @@ namespace TheGame.States.Menu
                 if (multiplayerConfigWorker.userConfirmed)
                 {
                     multiplayerConfig.SaveUserConfiguration(multiplayerConfigWorker.GetMultiplayerData());
+                    if (!obtainDataWasTriggered && (game.multiplayerUser==null))
+                    {
+                        game.StartGettingUserData();
+                        obtainDataWasTriggered = true;
+                    }
+                    
                 }
                 else
                 {
