@@ -7,7 +7,12 @@ namespace TheGame.Multiplayer
     public class MultiplayerUserConfig
     {
         MultiplayerData data;
+#if DESKTOP
         private string path = Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame");
+#endif
+#if ANDROID
+        private string path = "/sdcard/TheGame";
+#endif
 
         public MultiplayerUserConfig()
         {
@@ -56,11 +61,17 @@ namespace TheGame.Multiplayer
         {
             try
             {
-                using (var stream = new FileStream(path + "/multiplayerConfig.xml", FileMode.Open))
+                if (CheckIfUserIsConfigured())
                 {
-                    var XML = new XmlSerializer(typeof(MultiplayerData));
-                    return (MultiplayerData)XML.Deserialize(stream);
+                    using (var stream = new FileStream(path + "/multiplayerConfig.xml", FileMode.Open))
+                    {
+                        var XML = new XmlSerializer(typeof(MultiplayerData));
+                        return (MultiplayerData)XML.Deserialize(stream);
+                    }
                 }
+                else
+                    return null;
+                
             }
             catch (Exception e)
             {

@@ -12,17 +12,6 @@ namespace TheGame.Multiplayer
 {
     public static class MultiplayerCommunicationService
     {
-        public static async void GetDataFromApi()
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("192.168.1.101:580");
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("/multiplayer/refresh");
-
-            }
-        }
 
         public static async Task<string> AuthenticateUser(string username, string password)
         {

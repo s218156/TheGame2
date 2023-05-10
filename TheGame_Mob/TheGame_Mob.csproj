@@ -77,6 +77,9 @@
     <PackageReference Include="IKVM">
       <Version>8.4.5</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Extended">
       <Version>3.8.0</Version>

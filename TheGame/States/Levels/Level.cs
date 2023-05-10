@@ -26,6 +26,7 @@ namespace TheGame.States
 {
     public abstract class Level : State
     {
+        public bool isReady = false;
         public List<SubLevelTrigger> sublevelTriggers;
         public Level baseLevel;
         public int levelId;
@@ -111,6 +112,7 @@ namespace TheGame.States
             sublevelTriggers = new List<SubLevelTrigger>();
 
             GenerateObjects();
+            isReady = true;
         }
 
         protected abstract void LoadMap();

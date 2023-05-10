@@ -2,19 +2,22 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+#if DESKTOP
 using System.Threading;
+using System;
+#endif
+#if ANDROID
+using Java.Lang;
+using Android.Service.Voice;
+using Android.OS;
+#endif
 using TheGame.Mics;
 using TheGame.States;
 using TheGame.States.Menu;
 using TheGame.Multiplayer;
-using System;
 using TheGame.Mics.GUI_components;
-using MonoGame.Extended.Content;
+using System.IO;
 
-#if ANDROID
-using Android.Service.Voice;
-using Android.OS;
-#endif
 
 namespace TheGame
 {
@@ -47,9 +50,11 @@ namespace TheGame
 
         protected override void Initialize()
         {
-
+            VerifyLocalPath();
             screen = new ScreenSettings();
             base.Initialize();
+
+
         }
 
         protected override void LoadContent()
@@ -156,21 +161,38 @@ namespace TheGame
             MultiplayerUserConfig mutliplayerConfig = new MultiplayerUserConfig();
             try
             {
-                
-                MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
-                await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
-                multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
-                string textureName = "gameUI/playerMiniature/" + multiplayerUser.textureId.ToString();
-                multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(screenWidth - screenWidth / 5, 10, (screenWidth / 6) + 10, (screenHeight / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
+                if (mutliplayerConfig.CheckIfUserIsConfigured())
+                {
+                    MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
+                    await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
+                    multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
+                    string textureName = "gameUI/playerMiniature/" + multiplayerUser.textureId.ToString();
+                    multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(screenWidth - screenWidth / 5, 10, (screenWidth / 6) + 10, (screenHeight / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+               
             }catch(Exception e)
             {
                 mutliplayerConfig.RemoveConfigFile();
                 multiplayerUser = null;
             }
-            
-
         }
 
+        private void VerifyLocalPath()
+        {
 
+            string path = "";
+#if DESKTOP
+            path = System.Environment.ExpandEnvironmentVariables("%userprofile%/documents/TheGame");
+#endif
+#if ANDROID
+            path = "/sdcard/TheGame";
+#endif
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+        }
     }
 }

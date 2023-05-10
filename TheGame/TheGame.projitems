@@ -57,6 +57,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mics\SessionData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mics\SubLevelTrigger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\CustomEncryption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\Models\PlayerModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\Models\PlayerRectangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerCommunicationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerConfigWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\MultiplayerData.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\Levels\Level3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Levels\Level4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Levels\LevelFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\Levels\MultiplayerGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Levels\Sublevels\Sublevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\Levels\Sublevels\SubLevel1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\LoadingScreen.cs" />
