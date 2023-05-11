@@ -48,6 +48,7 @@ namespace TheGame.States.Levels
                             {
                                 Thread.Sleep(500);
                                 MultiplayerCommunicationService.SendPlayerData(playerModel);
+                                
                             }
                         }
                         else
