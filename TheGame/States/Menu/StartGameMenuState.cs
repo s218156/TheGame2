@@ -30,6 +30,7 @@ namespace TheGame.States.Menu
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
             newGameButton.Click += NewGameButtonClick;
 
+            
             Button backButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((graphics.Viewport.Width / 10) * 9, (graphics.Viewport.Height / 10) * 9 - (graphics.Viewport.Height / 20), (graphics.Viewport.Width / 11), (graphics.Viewport.Height / 10)), new string("Back"));
             backButton.Click += backButtonClick;
 
@@ -44,6 +45,15 @@ namespace TheGame.States.Menu
                 newGameButton,
                 backButton
             };
+
+            if (game.multiplayerUser != null)
+            {
+                Button multiplayerGameButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Multiplayer Game"));
+                y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+                multiplayerGameButton.Click += MultiplayerButtonClick;
+                _buttons.Add(multiplayerGameButton);
+                _components.Add(multiplayerGameButton);
+            }
 
 
             string path;
@@ -81,6 +91,12 @@ namespace TheGame.States.Menu
         {
             SessionData session = new SessionData();
             game.ChangeState(new LoadingScreen(game, graphics, content, session, 0, true));
+        }
+
+        private void MultiplayerButtonClick(object sender, EventArgs e)
+        {
+            SessionData session = new SessionData();
+            game.ChangeState(new MultiplayerGameState(game, graphics, content, session));
         }
     }
 }

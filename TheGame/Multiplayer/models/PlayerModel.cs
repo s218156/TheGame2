@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TheGame.Multiplayer.models
+namespace TheGame.Multiplayer.Models
 {
-    internal class PlayerModel
+    public class PlayerModel
     {
         public int id { get; set; }
         public PlayerRectangle rectangle { get; set; }

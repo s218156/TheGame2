@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using TheGame.Multiplayer.Models;
 #if ANDROID
 using static Android.Media.Session.MediaSession;
 #endif
@@ -12,14 +13,14 @@ namespace TheGame.Multiplayer
 {
     public static class MultiplayerCommunicationService
     {
+        private static string apiURL = "https://localhost:44348";
 
         public static async Task<string> AuthenticateUser(string username, string password)
         {
             
             using (var client = new HttpClient())
             {
-                //client.BaseAddress = new Uri("http://thegame2-backend-env.eba-4tmmzhaz.eu-central-1.elasticbeanstalk.com");
-                client.BaseAddress = new Uri("https://localhost:44348");
+                client.BaseAddress = new Uri(apiURL);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("username", username);
@@ -39,8 +40,7 @@ namespace TheGame.Multiplayer
 
             using (var client = new HttpClient())
             {
-                //client.BaseAddress = new Uri("http://thegame2-backend-env.eba-4tmmzhaz.eu-central-1.elasticbeanstalk.com");
-                client.BaseAddress = new Uri("https://localhost:44348");
+                client.BaseAddress = new Uri(apiURL);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("username", username);
@@ -57,8 +57,7 @@ namespace TheGame.Multiplayer
         {
             using (var client = new HttpClient())
             {
-                //client.BaseAddress = new Uri("http://thegame2-backend-env.eba-4tmmzhaz.eu-central-1.elasticbeanstalk.com");
-                client.BaseAddress = new Uri("https://localhost:44348");
+                client.BaseAddress = new Uri(apiURL);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("username", data.username);
@@ -70,5 +69,32 @@ namespace TheGame.Multiplayer
                     return Newtonsoft.Json.JsonConvert.DeserializeObject<MultiplayerObject>(res.Content.ReadAsStringAsync().Result);
             }
         } 
+
+        public static async Task<bool> JoinPlayer(PlayerModel model)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiURL);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var postTask = client.PostAsJsonAsync<PlayerModel>("/multiplayer/JoinSession", model);
+                postTask.Wait();
+                var result = postTask.Result;
+                return result.IsSuccessStatusCode;
+            }
+        }
+
+        public static async Task SendPlayerData(PlayerModel model)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiURL);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var postTask = client.PostAsJsonAsync<PlayerModel>("/multiplayer/UpdatePlayerData", model);
+                postTask.Wait();
+                var result = postTask.Result;
+            }
+        }
     }
 }
