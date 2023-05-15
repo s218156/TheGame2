@@ -13,6 +13,7 @@ namespace TheGame.Multiplayer
 {
     public static class MultiplayerCommunicationService
     {
+        //private static string apiURL ="http://thegame2-backend-env.eba-4tmmzhaz.eu-central-1.elasticbeanstalk.com";
         private static string apiURL = "https://localhost:44348";
 
         public static async Task<string> AuthenticateUser(string username, string password)
@@ -94,6 +95,39 @@ namespace TheGame.Multiplayer
                 var postTask = client.PostAsJsonAsync<PlayerModel>("/multiplayer/UpdatePlayerData", model);
                 postTask.Wait();
                 var result = postTask.Result;
+            }
+        }
+        public static async Task<bool> CheckApiAvalability()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiURL);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("/api/CheckApiAvalability");
+                if (!res.IsSuccessStatusCode)
+                    throw new Exception();
+                else
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(res.Content.ReadAsStringAsync().Result);
+            }
+        }
+
+        public static async Task<List<PlayerModel>> RefreshSessionData(PlayerModel model)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiURL);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var postTask = client.PostAsJsonAsync<PlayerModel>("/multiplayer/refreshSessionData", model);
+                postTask.Wait();
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerModel>>(result.Content.ReadAsStringAsync().Result);
+                }
+                else
+                        return new List<PlayerModel>(); 
             }
         }
     }

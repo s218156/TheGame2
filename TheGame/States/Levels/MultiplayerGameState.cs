@@ -46,9 +46,11 @@ namespace TheGame.States.Levels
                             
                             while (true)
                             {
+                                
                                 Thread.Sleep(500);
                                 MultiplayerCommunicationService.SendPlayerData(playerModel);
-                                
+                                playersModels = await MultiplayerCommunicationService.RefreshSessionData(playerModel);
+
                             }
                         }
                         else
@@ -78,6 +80,11 @@ namespace TheGame.States.Levels
                 level.Draw(gameTime, spriteBatch);
             else
                 graphics.Clear(Color.AliceBlue);
+
+            foreach (PlayerModel model in playersModels)
+            {
+
+            }
         }
 
         public override void Initialize()
@@ -94,7 +101,13 @@ namespace TheGame.States.Levels
                 level.Update(gameTime);
                 controller = level.controller;
             }
+
             UpdatePlayerModel();
+        }
+
+        private void DrawPlayer(PlayerModel model)
+        {
+
         }
     }
 }

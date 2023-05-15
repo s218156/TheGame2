@@ -33,6 +33,7 @@ namespace TheGame
         private State _gameState;
         public MultiplayerObject multiplayerUser;
         private MultiplayerUserHUD multiplayerHUD;
+        public bool serverAvalable = false;
         public Game1()
         {
 
@@ -161,18 +162,23 @@ namespace TheGame
             MultiplayerUserConfig mutliplayerConfig = new MultiplayerUserConfig();
             try
             {
-                if (mutliplayerConfig.CheckIfUserIsConfigured())
+                if (await MultiplayerCommunicationService.CheckApiAvalability())
                 {
-                    MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
-                    await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
-                    multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
-                    string textureName = "gameUI/playerMiniature/" + multiplayerUser.textureId.ToString();
-                    multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(screenWidth - screenWidth / 5, 10, (screenWidth / 6) + 10, (screenHeight / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
+                    serverAvalable = true;
+                    if (mutliplayerConfig.CheckIfUserIsConfigured())
+                    {
+                        MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
+                        await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
+                        multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
+                        string textureName = "gameUI/playerMiniature/" + multiplayerUser.textureId.ToString();
+                        multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(screenWidth - screenWidth / 5, 10, (screenWidth / 6) + 10, (screenHeight / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
-                else
-                {
-                    throw new Exception();
-                }
+                
                
             }catch(Exception e)
             {

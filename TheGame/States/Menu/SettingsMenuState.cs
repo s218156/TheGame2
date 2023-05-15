@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using TheGame.Mics;
+using TheGame.Multiplayer;
 #if ANDROID
 using Android.Content;
 using Android.Views;
@@ -97,8 +98,15 @@ namespace TheGame.States.Menu
             //Dodawanie przycisków ustawień
             int y;
             y = (graphics.Viewport.Height / 10) * 2;
-            multiplayerButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), "Multiplayer");
-            y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+            if (game.serverAvalable)
+            {
+                multiplayerButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), "Multiplayer");
+                y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+                _components.Add(multiplayerButton);
+                _buttons.Add(multiplayerButton);
+                multiplayerButton.Click += MultiplayerButtonClick;
+            }
+            
 
 #if DESKTOP
             resolutionButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Resolution: " + width + " X " + height));
@@ -127,9 +135,7 @@ namespace TheGame.States.Menu
             _components.Add(applyButton);
             _buttons.Add(applyButton);
 #endif
-            _components.Add(multiplayerButton);
-            _buttons.Add(multiplayerButton);
-            multiplayerButton.Click += MultiplayerButtonClick;
+            
             _components.Add(backButton);
 
 

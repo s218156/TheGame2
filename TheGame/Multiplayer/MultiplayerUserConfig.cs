@@ -24,14 +24,7 @@ namespace TheGame.Multiplayer
         {
             if (File.Exists(path + "/multiplayerConfig.xml"))
             {
-                try
-                {
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                return true;
             }
             else
             {
@@ -50,11 +43,20 @@ namespace TheGame.Multiplayer
 
             if (!(File.Exists(path)))
                 Directory.CreateDirectory(path);
+#if DESKTOP
             using (var stream = new FileStream(path + "/multiplayerConfig.xml", FileMode.Create))
             {
                 var XML = new XmlSerializer(typeof(MultiplayerData));
                 XML.Serialize(stream, data);
             }
+#endif
+#if ANDROID
+            using (var stream = new StreamWriter(path + "/multiplayerConfig.xml"))
+            {
+                var XML = new XmlSerializer(typeof(MultiplayerData));
+                XML.Serialize(stream, data);
+            }
+#endif
         }
 
         public MultiplayerData GetUserConfigFromFile()
@@ -63,11 +65,20 @@ namespace TheGame.Multiplayer
             {
                 if (CheckIfUserIsConfigured())
                 {
+#if DESKTOP
                     using (var stream = new FileStream(path + "/multiplayerConfig.xml", FileMode.Open))
                     {
                         var XML = new XmlSerializer(typeof(MultiplayerData));
                         return (MultiplayerData)XML.Deserialize(stream);
                     }
+#endif
+#if ANDROID
+                    using (TextReader stream = new StreamReader(path + "/multiplayerConfig.xml"))
+                    {
+                        var XML = new XmlSerializer(typeof(MultiplayerData));
+                        return (MultiplayerData)XML.Deserialize(stream);
+                    }
+#endif
                 }
                 else
                     return null;

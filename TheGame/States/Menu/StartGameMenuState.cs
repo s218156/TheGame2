@@ -46,7 +46,7 @@ namespace TheGame.States.Menu
                 backButton
             };
 
-            if (game.multiplayerUser != null)
+            if ((game.multiplayerUser != null)&&(game.serverAvalable))
             {
                 Button multiplayerGameButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Multiplayer Game"));
                 y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;

@@ -33,6 +33,7 @@ namespace TheGame.States.Menu
         private List<Component> formObjects = new List<Component>();
         private List<Component> retryFormObjects = new List<Component>();
         private bool obtainDataWasTriggered = false;
+        private bool dataWasSaved = false;
 
 
         public MultiplayerSettingsState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
@@ -163,12 +164,20 @@ namespace TheGame.States.Menu
                 multiplayerConfig.UpdateMultiplayerData(multiplayerConfigWorker.GetMultiplayerData());
                 if (multiplayerConfigWorker.userConfirmed)
                 {
-                    multiplayerConfig.SaveUserConfiguration(multiplayerConfigWorker.GetMultiplayerData());
-                    if (!obtainDataWasTriggered && (game.multiplayerUser==null))
+                    if (!dataWasSaved)
                     {
-                        game.StartGettingUserData();
-                        obtainDataWasTriggered = true;
+                        multiplayerConfig.SaveUserConfiguration(multiplayerConfigWorker.GetMultiplayerData());
+                        dataWasSaved = true;
                     }
+                    else
+                    {
+                        if (!obtainDataWasTriggered && (game.multiplayerUser == null))
+                        {
+                            game.StartGettingUserData();
+                            obtainDataWasTriggered = true;
+                        }
+                    }
+                    
                     
                 }
                 else
