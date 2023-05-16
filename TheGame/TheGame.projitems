@@ -76,6 +76,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SoundControllers\CoinSoundController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Fly.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\ForeignPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\GhostSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovingBug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Player.cs" />

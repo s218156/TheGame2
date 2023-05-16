@@ -70,5 +70,15 @@ namespace TheGame.Animations
             else
                 spriteBatch.Draw(texture, drawRectangle, sourceRectangle, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, (float)0);
         }
+
+        public override void SetDirection(bool direction)
+        {
+            this.direction = direction;
+        }
+
+        public override void SetMovement(bool isOnMove)
+        {
+                currentRow = 1;
+        }
     }
 }

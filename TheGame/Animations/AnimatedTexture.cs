@@ -65,5 +65,9 @@ namespace TheGame.Animations
             }
         }
 
+        public abstract void SetMovement(bool isOnMove);
+        public abstract void SetDirection(bool direction);
+
+
     }
 }

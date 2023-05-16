@@ -1,5 +1,6 @@
 ﻿#if ANDROID
 using Android.Hardware.Camera2;
+using Java.Util.Logging;
 #endif
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -10,12 +11,14 @@ using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Tiled;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TheGame.Content.Items;
 using TheGame.Inventory;
 using TheGame.Items;
 using TheGame.Mics;
 using TheGame.Mics.GUI_components;
+using TheGame.Multiplayer.Models;
 using TheGame.SoundControllers;
 using TheGame.Sprites;
 using TheGame.States.Levels;
@@ -26,12 +29,20 @@ namespace TheGame.States
 {
     public abstract class Level : State
     {
+        public bool isMultiplayer = false;
+        List<ForeignPlayer> foreignPlayers = new List<ForeignPlayer>();
+        List<Texture2D> playersTextures = new List<Texture2D>();
+        Texture2D deathTexture;
+        SpriteFont font;
+
+
+
         public bool isReady = false;
         public List<SubLevelTrigger> sublevelTriggers;
         public Level baseLevel;
         public int levelId;
         public int nextLevelId;
-        protected TileMap map;
+        public TileMap map;
         public Player player;
         public List<Sprite> sprites;
         protected Camera _camera;
@@ -50,7 +61,8 @@ namespace TheGame.States
         protected List<Spring> springs;
         private State nextGameState;
         Random random;
-        private List<WaterArea> waterAreas;
+        public List<WaterArea> waterAreas;
+        
 
         private Texture2D mask;
         protected Effect effect;
@@ -70,6 +82,17 @@ namespace TheGame.States
             
         }
 
+        public void UpdateForeignPlayers(GameTime gameTime, List<PlayerModel> playersModels)
+        {
+            foreach (PlayerModel model in playersModels)
+            {
+                if (foreignPlayers.Where(p => p.id == model.id).Any())
+                    foreignPlayers.Where(p => p.id == model.id).First().UpdateData(model);
+                else
+                    foreignPlayers.Add(new ForeignPlayer(playersTextures[model.textureID], new Vector2(model.rectangle.X, model.rectangle.Y), deathTexture, font, model));
+            }
+        }
+
         public void GeneratePlayerAndBackground()
         {
             player = new Player(content.Load<Texture2D>("Sprites/playerAnimation"), spawnPoint, content.Load<Texture2D>("textureEffects/whiteFogAnimation"), session.GetPlayerLives());
@@ -84,6 +107,13 @@ namespace TheGame.States
         public abstract void prepareLevel();
         public override void Initialize()
         {
+            if (isMultiplayer)
+            {
+                playersTextures.Add(content.Load<Texture2D>("Sprites/playerAnimation"));
+                deathTexture = content.Load<Texture2D>("textureEffects/whiteFogAnimation");
+                font = content.Load<SpriteFont>("Fonts/Basic");
+            }
+
             gameFrame = new RenderTarget2D(graphics, graphics.Viewport.Width, graphics.Viewport.Height);
             if (isLightShader)
             {
@@ -215,8 +245,16 @@ namespace TheGame.States
             spriteBatch.Begin(SpriteSortMode.FrontToBack, transformMatrix: _camera.Transform);
             foreach (Sprite sprite in sprites)
                 sprite.Draw(gameTime, spriteBatch);
-            
-            foreach(Item item in items)
+
+            if (isMultiplayer)
+            {
+                foreach (ForeignPlayer foreignPlayer in foreignPlayers)
+                {
+                    foreignPlayer.Draw(gameTime, spriteBatch);
+                }
+            }
+
+            foreach (Item item in items)
                 item.Draw(gameTime, spriteBatch);
 
             foreach (Spring tmp in springs)
@@ -255,6 +293,7 @@ namespace TheGame.States
             spriteBatch.End();
         }
 
+
         public void UpdateSessionData()
         {
             session.UpdatePlayerPoints(player.points);
@@ -277,6 +316,13 @@ namespace TheGame.States
 
         public override void Update(GameTime gameTime)
         {
+            if (isMultiplayer)
+            {
+                foreach(ForeignPlayer foreignPlayer in foreignPlayers)
+                {
+                    foreignPlayer.Update(gameTime, player, map, movableItems, waterAreas);
+                }
+            }
             controller.Clear();
             controller =gameUI.ReadInput(controller);
             
