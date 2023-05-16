@@ -76,7 +76,8 @@ namespace TheGame.Multiplayer
                     using (TextReader stream = new StreamReader(path + "/multiplayerConfig.xml"))
                     {
                         var XML = new XmlSerializer(typeof(MultiplayerData));
-                        return (MultiplayerData)XML.Deserialize(stream);
+                        MultiplayerData data= (MultiplayerData)XML.Deserialize(stream);
+                        return data;
                     }
 #endif
                 }

@@ -95,9 +95,12 @@ namespace TheGame.States
 
         public void GeneratePlayerAndBackground()
         {
-            player = new Player(content.Load<Texture2D>("Sprites/playerAnimation"), spawnPoint, content.Load<Texture2D>("textureEffects/whiteFogAnimation"), session.GetPlayerLives());
+            if(game.multiplayerUser!=null)
+                player = new Player(playersTextures[game.multiplayerUser.textureId], spawnPoint, deathTexture, session.GetPlayerLives());
+            else
+				player = new Player(playersTextures[0], spawnPoint, deathTexture, session.GetPlayerLives());
 
-            foreach (Paralax tmp in _paralaxes)
+			foreach (Paralax tmp in _paralaxes)
                 tmp.Initialize();
 
             ghostSprite = new GhostSprite(player);
@@ -107,12 +110,16 @@ namespace TheGame.States
         public abstract void prepareLevel();
         public override void Initialize()
         {
-            if (isMultiplayer)
+            string path = "";
+            for(int i = 0; i < 5; i++)
             {
-                playersTextures.Add(content.Load<Texture2D>("Sprites/playerAnimation"));
-                deathTexture = content.Load<Texture2D>("textureEffects/whiteFogAnimation");
-                font = content.Load<SpriteFont>("Fonts/Basic");
-            }
+                path = "Sprites/playerTextures/atlas" + i;
+				playersTextures.Add(content.Load<Texture2D>(path));
+
+			}
+            deathTexture = content.Load<Texture2D>("textureEffects/whiteFogAnimation");
+            font = content.Load<SpriteFont>("Fonts/Basic");
+            
 
             gameFrame = new RenderTarget2D(graphics, graphics.Viewport.Width, graphics.Viewport.Height);
             if (isLightShader)
@@ -194,9 +201,12 @@ namespace TheGame.States
             }
             foreach (var tmp in map.sublevels)
                 sublevelTriggers.Add(new SubLevelTrigger(tmp.sublevelId, tmp.rectangle));
-
-            foreach (var tmp in map.GetCoins())
-                items.Add(new Coin(content.Load<Texture2D>("Items/coinAnimation"), new Rectangle((int)tmp.X, (int)tmp.Y, 50, 50), 1, coinSound));
+            if (!isMultiplayer)
+            {
+				foreach (var tmp in map.GetCoins())
+					items.Add(new Coin(content.Load<Texture2D>("Items/coinAnimation"), new Rectangle((int)tmp.X, (int)tmp.Y, 50, 50), 1, coinSound));
+			}
+            
             
             foreach (var tmp in map.GetLadders())
                 items.Add(new Ladder(tmp));

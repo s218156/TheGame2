@@ -106,7 +106,7 @@ namespace TheGame.States.Menu
                 _buttons.Add(multiplayerButton);
                 multiplayerButton.Click += MultiplayerButtonClick;
             }
-            
+
 
 #if DESKTOP
             resolutionButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 4 * 2, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Resolution: " + width + " X " + height));
@@ -122,24 +122,20 @@ namespace TheGame.States.Menu
                 toogleFullScreenButton.caption = "Full Screen is OFF";
             }
 
-            backButton.Click += backButtonClick;
-            applyButton.Click += ApplyButtonClick;
             resolutionButton.Click += ResolutionButtonClick;
             toogleFullScreenButton.Click += ToogleFullScreenButtonClicked;
-
-
             _components.Add(resolutionButton);
             _components.Add(toogleFullScreenButton);
             _buttons.Add(resolutionButton);
             _buttons.Add(toogleFullScreenButton);
+            applyButton.Click += ApplyButtonClick;
             _components.Add(applyButton);
             _buttons.Add(applyButton);
+
 #endif
-            
-            _components.Add(backButton);
 
-
-
+			backButton.Click += backButtonClick;
+			_components.Add(backButton);
             _buttons.Add(backButton);
 
             base.Initialize();

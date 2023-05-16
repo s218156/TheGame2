@@ -34,6 +34,7 @@ namespace TheGame
         public MultiplayerObject multiplayerUser;
         private MultiplayerUserHUD multiplayerHUD;
         public bool serverAvalable = false;
+        public bool isMultiplayer = false;
         public Game1()
         {
 
@@ -85,12 +86,6 @@ namespace TheGame
 
         protected override void Update(GameTime gameTime)
         {
-#if ANDROID
-
-
-
-#endif
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
             if (!(_currentState is MenuState))
@@ -159,19 +154,19 @@ namespace TheGame
 
         public async void GetDataForUser()
         {
-            MultiplayerUserConfig mutliplayerConfig = new MultiplayerUserConfig();
+            MultiplayerUserConfig multiplayerConfig = new MultiplayerUserConfig();
             try
             {
                 if (await MultiplayerCommunicationService.CheckApiAvalability())
                 {
                     serverAvalable = true;
-                    if (mutliplayerConfig.CheckIfUserIsConfigured())
+                    if (multiplayerConfig.CheckIfUserIsConfigured())
                     {
-                        MultiplayerData data = mutliplayerConfig.GetUserConfigFromFile();
+                        MultiplayerData data = multiplayerConfig.GetUserConfigFromFile();
                         await MultiplayerCommunicationService.VerifyUserConfig(data.username, data.userPrivateKey);
                         multiplayerUser = await MultiplayerCommunicationService.GetMultiplayerObject(data);
                         string textureName = "gameUI/playerMiniature/" + multiplayerUser.textureId.ToString();
-                        multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(screenWidth - screenWidth / 5, 10, (screenWidth / 6) + 10, (screenHeight / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
+                        multiplayerHUD = new MultiplayerUserHUD(Content.Load<Texture2D>("gameUI/inputBox"), Content.Load<Texture2D>(textureName), new Rectangle(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 5, 10, (GraphicsDevice.Viewport.Width / 6) + 10, (GraphicsDevice.Viewport.Height / 10) + 10), Content.Load<SpriteFont>("Fonts/Basic"), multiplayerUser);
                     }
                     else
                     {
@@ -182,7 +177,7 @@ namespace TheGame
                
             }catch(Exception e)
             {
-                mutliplayerConfig.RemoveConfigFile();
+                multiplayerConfig.RemoveConfigFile();
                 multiplayerUser = null;
             }
         }

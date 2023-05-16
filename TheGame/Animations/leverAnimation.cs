@@ -13,7 +13,18 @@ namespace TheGame.Animations
         public LeverAnimation(Texture2D texture, Rectangle rectangle) : base(texture, rectangle, 2, 1)
         {
         }
-        public void Update(GameTime gameTime, Lever lever)
+
+		public override void SetDirection(bool direction)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void SetMovement(bool isOnMove)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Update(GameTime gameTime, Lever lever)
         {
             if (lever.isActive)
                 currentFrame = 1;

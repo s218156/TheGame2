@@ -33,21 +33,27 @@ namespace TheGame.States.Menu
             ReturnButton.Click += ReturnButtonClicked;
             _components.Add(ReturnButton);
             _buttons.Add(ReturnButton);
-            y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
-
-            Button ResetButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Restart Level"));
-            ResetButton.Click += ResetButtonClicked;
-            _components.Add(ResetButton);
-            _buttons.Add(ResetButton);
 
             y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
 
-            Button SaveButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Save game"));
-            SaveButton.Click += SaveGameButtonClicked;
-            _components.Add(SaveButton);
-            _buttons.Add(SaveButton);
+            if (!game.isMultiplayer) 
+            {
 
-            y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+				Button ResetButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Restart Level"));
+				ResetButton.Click += ResetButtonClicked;
+				_components.Add(ResetButton);
+				_buttons.Add(ResetButton);
+
+				y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+
+				Button SaveButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Save game"));
+				SaveButton.Click += SaveGameButtonClicked;
+				_components.Add(SaveButton);
+				_buttons.Add(SaveButton);
+
+				y += graphics.Viewport.Height / 30 + graphics.Viewport.Height / 10;
+
+			}
 
             Button MainMenuButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(graphics.Viewport.Width / 3, y, (graphics.Viewport.Width / 3), (graphics.Viewport.Height / 10)), new string("Main Menu"));
             MainMenuButton.Click += MainMenuButtonClicked;
@@ -92,11 +98,13 @@ namespace TheGame.States.Menu
 
         public void ExitButtonClicked(object sender, EventArgs e)
         {
+            game.isMultiplayer = false;
             game.Exit();
         }
 
         public void MainMenuButtonClicked(object sender, EventArgs e)
         {
+            game.isMultiplayer = false;
             game.ChangeState(new MainMenuState(game, graphics, content,null));
         }
 

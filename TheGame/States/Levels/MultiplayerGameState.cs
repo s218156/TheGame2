@@ -28,6 +28,7 @@ namespace TheGame.States.Levels
 
         public MultiplayerGameState(Game1 game, GraphicsDevice graphics, ContentManager content, SessionData session) : base(game, graphics, content, session)
         {
+            game.isMultiplayer = true;
             playerModel = new PlayerModel();
             playerModel.id=game.multiplayerUser.id;
             playerModel.textureID = game.multiplayerUser.textureId;
@@ -59,17 +60,19 @@ namespace TheGame.States.Levels
                                 Thread.Sleep(1);
                                 MultiplayerCommunicationService.SendPlayerData(playerModel);
                                 playersModels = await MultiplayerCommunicationService.RefreshSessionData(playerModel);
-
+                                if (!game.isMultiplayer)
+                                    break;
                             }
                         }
                         else
                             connectionAttempts++;
                     }
                 }
-                
+                if (!game.isMultiplayer)
+                    break;
                 if (connectionAttempts > 9)
                     break;
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             }
             exitMultiplayer = true;
         }

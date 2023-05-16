@@ -19,7 +19,7 @@ namespace TheGame.States.Menu
         protected List<Component> _components;
         protected List<Button> _buttons;
         protected Selection selection;
-        private bool isKeyboardVisible;
+        protected bool isKeyboardVisible;
         protected InputBox inputTarger;
         protected KeyboardInputBase _keyboard;
 

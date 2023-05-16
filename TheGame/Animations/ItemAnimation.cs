@@ -12,7 +12,18 @@ namespace TheGame.Animations
         {
 
         }
-        public void UpdateRectangle(Rectangle rectangle)
+
+		public override void SetDirection(bool direction)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void SetMovement(bool isOnMove)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateRectangle(Rectangle rectangle)
         {
             this.rectangle = rectangle;
         }

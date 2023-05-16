@@ -57,7 +57,7 @@ namespace TheGame.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, fullname, new Vector2(rectangle.X, rectangle.Y - 20), Color.Black);
+            spriteBatch.DrawString(font, fullname, new Vector2(rectangle.X, rectangle.Y - 30), Color.Black);
             base.Draw(gameTime, spriteBatch);
         }
 

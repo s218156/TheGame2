@@ -57,23 +57,40 @@ namespace TheGame.States.Menu
         }
         private void InputBoxClick(object sender, EventArgs e)
         {
+            bool changedState = false;
             if (inputTarger == null)
-                inputTarger = (InputBox)sender;
+            {
+				inputTarger = (InputBox)sender;
+                changedState = true;
+			}   
             else
-                inputTarger = null;
+            {
+				if (inputTarger != (InputBox)sender)
+					inputTarger = (InputBox)sender;
+                else
+                {
+					inputTarger = null;
+                    changedState = true;
+				}	
+			}
 
 #if ANDROID
-            int y = graphics.Viewport.Height / 2;
-            if (inputTarger != null)
-                y = -1 * y;
-
-            foreach (Button button in _buttons)
+            if (changedState)
             {
+				int y = graphics.Viewport.Height / 2;
+				if (inputTarger != null)
+					y = -1 * y;
 
-                button.MoveButton(0, y);
-            }
+				foreach (Button button in _buttons)
+				{
+
+					button.MoveButton(0, y);
+				}
+			}
+			
 #endif
-            ToogleKeyboard();
+            if(changedState)
+                ToogleKeyboard();
         }
 
         private void LoginButtonClick(object sender, EventArgs e)
@@ -105,11 +122,11 @@ namespace TheGame.States.Menu
 
             _components.Add(formBackground);
 
-            loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
+            loginBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(Convert.ToInt32((x / 8)*1.25) , Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Login");
 
-            passwordBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
+            passwordBox = new InputBox(content.Load<Texture2D>("gameUI/inputBox"), content.Load<SpriteFont>("Fonts/Basic"), new Rectangle(Convert.ToInt32((x / 8) *1.25), Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), "Password");
 
-            Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Login"));
+            Button loginButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 10)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 10)), new string("Login"));
 
             Button retryButton = new Button(buttonTexture, content.Load<SpriteFont>("Fonts/Basic"), new Rectangle((x / 8) * 3, Convert.ToInt32((graphics.Viewport.Height / 10) * 3.5 - (graphics.Viewport.Height / 20) + (graphics.Viewport.Height / 5)), (graphics.Viewport.Width / 6), (graphics.Viewport.Height / 20)), new string("Retry"));
 

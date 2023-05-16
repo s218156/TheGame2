@@ -57,5 +57,15 @@ namespace TheGame.Animations
             spriteBatch.Draw(texture, new Rectangle(rectangle.X+textureWidth*(_length+1), rectangle.Y+ rectangle.Height / 2, singleCellWidth, rectangle.Height / 2), new Rectangle(textureWidth * 2, 0, textureWidth-10, textureHeight), Color.White);
 
         }
-    }
+
+		public override void SetMovement(bool isOnMove)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void SetDirection(bool direction)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

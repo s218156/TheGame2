@@ -30,7 +30,17 @@ namespace TheGame.Animations
                 spriteBatch.Draw(texture, rectangle, sourceRectangle, Color.White,0,Vector2.Zero,SpriteEffects.FlipHorizontally,(float)0);          
         }
 
-        public override void Update(GameTime gameTime,Sprite sprite)
+		public override void SetDirection(bool direction)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void SetMovement(bool isOnMove)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Update(GameTime gameTime,Sprite sprite)
         {
             this.rectangle = sprite.rectangle;
             if (!(sprite.isAlive))

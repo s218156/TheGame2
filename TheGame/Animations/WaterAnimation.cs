@@ -57,5 +57,15 @@ namespace TheGame.Animations
 
 
         }
-    }
+
+		public override void SetMovement(bool isOnMove)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void SetDirection(bool direction)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

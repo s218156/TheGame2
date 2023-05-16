@@ -14,9 +14,9 @@ namespace TheGame.Multiplayer
     public static class MultiplayerCommunicationService
     {
         private static string apiURL ="http://thegame2-backend-env.eba-4tmmzhaz.eu-central-1.elasticbeanstalk.com";
-        //private static string apiURL = "https://localhost:44348";
+		//private static string apiURL = "https://localhost:44348";
 
-        public static async Task<string> AuthenticateUser(string username, string password)
+		public static async Task<string> AuthenticateUser(string username, string password)
         {
             
             using (var client = new HttpClient())
